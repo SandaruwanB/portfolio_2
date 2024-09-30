@@ -13,7 +13,7 @@ const BottomNavBar = () => {
     
   return (
     <div className='w-full h-full flex justify-center items-center'>
-        <div className='absolute w-2/4 h-72 bg-cyan-950 z-[1] rounded-t-full opacity-80 filter blur-3xl'></div>
+        <div className='absolute w-2/5 h-56 bg-cyan-950 z-[1] rounded-t-full opacity-80 filter blur-3xl'></div>
         <div className='bg-black px-3 py-4 rounded-3xl z-[2]' >
             {
                 navData.map((value,index)=>(
