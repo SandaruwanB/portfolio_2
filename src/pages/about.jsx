@@ -4,7 +4,7 @@ import BottomNavBar from '../components/bottomNavBar';
 const About = () => {
   return (
     <div>
-      <div className='absolute bottom-0 left-0 w-full'>
+      <div className='absolute bottom-2 left-0 w-full'>
         <BottomNavBar />
       </div>
     </div>
