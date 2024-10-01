@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TbSmartHome, TbIdBadge2, TbAddressBook } from 'react-icons/tb'
+import { TbSmartHome, TbIdBadge2, TbAddressBook, TbBlockquote } from 'react-icons/tb'
 
 const BottomNavBar = () => {
     const navigate = useNavigate();
@@ -8,6 +8,7 @@ const BottomNavBar = () => {
     const navData = [
         {'name' : 'Home', 'icon' : <TbSmartHome size={28} style={{background : 'transparent'}} />, 'link' : '/', 'iconSize' : 28},
         {'name' : 'About', 'icon' : <TbIdBadge2 size={28} style={{background : 'transparent'}} />, 'link' : '/about', 'iconSize' : 28},
+        {'name' : 'Blog', 'icon' : <TbBlockquote size={28} style={{background : 'transparent'}} />, 'link' : '/blog', 'iconSize' : 28},
         {'name' : 'Contact', 'icon' : <TbAddressBook size={28} style={{background : 'transparent'}} />, 'link' : '/contact', 'iconSize' : 28},
     ];
     
