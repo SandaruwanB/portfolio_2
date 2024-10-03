@@ -1,6 +1,6 @@
-import React from 'react'
-import BottomNavBar from '../components/bottomNavBar'
-import { TypeAnimation } from 'react-type-animation'
+import React from 'react';
+import BottomNavBar from '../components/bottomNavBar';
+import { TypeAnimation } from 'react-type-animation';
 
 function Home() {
 
@@ -25,9 +25,12 @@ function Home() {
                   <p className='mt-10 font-sans tracking-wide text-justify'>
                     Hi, I'm Sandy, a full-stack developer with 3+ years of experience. I specialize in creating custom web and Android apps that deliver results. I also develop desktop applications and APIs, with a focus on performance and scalability. Based in Sri Lanka, I’m passionate about building solutions that help businesses grow.
                   </p>
-                  <button className='mt-10 border-2 bg-transparent border-yellow-600 px-8 py-2 text-yellow-600 font-semibold tracking-widest text-lg hover:bg-yellow-600 hover:text-white transition-all duration-500'>
-                    Contact
-                  </button>
+                  <div className='mt-10 relative'>
+                    <button className='border-2 bg-transparent border-yellow-600 px-8 py-2 text-yellow-600 font-semibold tracking-widest text-lg hover:bg-yellow-600 hover:text-white transition-all duration-500'>
+                      Contact
+                    </button>
+                    <div className='h-4 bg-orange-400 w-4 rounded-full filter blur-xl'></div>
+                  </div>
               </div>
           </div>
       </div>
