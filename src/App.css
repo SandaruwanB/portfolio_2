@@ -7,3 +7,21 @@
     background: #10151d;
     color: white;
 }
+
+
+.nav-link{
+    text-decoration: none;
+}
+
+.nav-link::after{
+    display: block;
+    content: '';
+    width: inherit;
+    border-bottom: solid 3px rgb(202,138,4);
+    transform: scaleX(0);
+    transition: transform 250ms ease-in-out;
+}
+
+.nav-link:hover::after{
+    transform: scaleX(1);
+}

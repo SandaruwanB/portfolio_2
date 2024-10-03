@@ -18,7 +18,7 @@ const BottomNavBar = () => {
         <div className='bg-black px-3 py-4 rounded-3xl z-[2]' >
             {
                 navData.map((value,index)=>(
-                    <button className='mx-4' onClick={()=>navigate(value.link)}>
+                    <button className='mx-4 nav-link' onClick={()=>navigate(value.link)}>
                         {value.icon}
                     </button>
                 ))
