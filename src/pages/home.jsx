@@ -1,9 +1,9 @@
 import React from 'react';
 import BottomNavBar from '../components/bottomNavBar';
 import { TypeAnimation } from 'react-type-animation';
+import { TbBrandLinkedin, TbBrandGithub, TbMail, TbBrandWhatsapp } from 'react-icons/tb'
 
 function Home() {
-
   const typeSequence = ['Full-Stack Developer', 'Web Developer', 'Android Developer', 'Freelancer', 'System Analyst', 'System Designer'];
 
   return (
@@ -13,10 +13,18 @@ function Home() {
       </div>
       <div className='w-full min-h-screen container mx-auto flex items-center z-0'>
           <div className='grid grid-cols-1 lg:grid-cols-5 gap-4 w-full'>
-              <div className='lg:col-span-2 border-2 rounded-2xl w-full p-16'>
-                  <h1>My Data</h1>
+              <div className='lg:col-span-2 w-full'>
+                  <div className='flex h-full justify-center items-center flex-col'>
+                    <div className='profile-pic'></div>
+                    <div className='mt-10 flex justify-between'>
+                      <button><TbBrandLinkedin  size={35} /></button>
+                      <button className='mx-4 px-2 py-2'><TbBrandGithub size={35} /></button>
+                      <button><TbMail size={35} /></button>
+                      <button className='ml-4 px-2 py-2'><TbBrandWhatsapp size={35} /></button>
+                    </div>
+                  </div>
               </div>
-              <div className='lg:col-span-3 w-full p-5 lg:p-16 text-left'>
+              <div className='flex justify-center flex-col lg:col-span-3 w-full p-5 lg:pr-16 text-left'>
                   <h1 className='text-[1.5rem] font-medium'>Hello !</h1>
                   <h2 className='text-[2rem] md:text-[3rem] font-semibold'>I'm <span className='text-[2rem] md:text-[3rem] text-yellow-600 font-bold'>Sandaruwan Bandara</span></h2>
                   <h1 className='text-[2rem] md:text-[3rem] font-bold tracking-widest'>
