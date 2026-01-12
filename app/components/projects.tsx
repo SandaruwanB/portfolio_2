@@ -92,7 +92,6 @@ const Projects: React.FC<ProjectsProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     const handleResize = () => {
       if (isOpen && !isFullscreen && !isResizing && !isDragging) {
-        const dimensions = getResponsiveDimensions();
         setWindowDimensions(prev => ({
           ...prev,
           x: Math.min(prev.x, window.innerWidth - prev.width),
