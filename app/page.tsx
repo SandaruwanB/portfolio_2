@@ -4,17 +4,17 @@ import React, { useState } from "react";
 import Projects from "./pages/projects";
 import Header from "./components/Header";
 import BottomBar, { BottomBarMenuItem } from "./components/BottomBar";
+import Contact from "./pages/contact";
 
 export default function Home() {
   const [isProjectOpen, setIsProjectOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
-  const handleOpenProjects = () => {
-    setIsProjectOpen(true);
-  };
+  const handleOpenProjects = () => { setIsProjectOpen(true); };
+  const handleCloseProjects = () => { setIsProjectOpen(false); };
 
-  const handleCloseProjects = () => {
-    setIsProjectOpen(false);
-  };
+  const handleOpenContact = () => { setIsContactOpen(true); }
+  const handleCloseContact = () => { setIsContactOpen(false); }
 
   const menuItems: BottomBarMenuItem[] = [
     {
@@ -39,7 +39,7 @@ export default function Home() {
       ),
       bgColor: 'bg-blue-500',
       hoverColor: 'group-hover:bg-blue-400',
-      onClick: () => console.log('Contact form clicked'),
+      onClick: handleOpenContact,
     },
     {
       id: 'terminal',
@@ -73,6 +73,9 @@ export default function Home() {
 
       {isProjectOpen && (
         <Projects isOpen={isProjectOpen} onClose={handleCloseProjects} />
+      )}
+      {isContactOpen && (
+        <Contact isOpen={isContactOpen} onClose={handleCloseContact} />
       )}
     </div>
   );
