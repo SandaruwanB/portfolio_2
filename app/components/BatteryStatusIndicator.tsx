@@ -1,5 +1,17 @@
 import { useEffect, useState } from "react";
 
+interface BatteryManager extends EventTarget {
+    charging: boolean;
+    chargingTime: number;
+    dischargingTime: number;
+    level: number;
+    addEventListener(type: 'chargingchange' | 'chargingtimechange' | 'dischargingtimechange' | 'levelchange', listener: () => void): void;
+}
+
+interface NavigatorWithBattery extends Navigator {
+    getBattery(): Promise<BatteryManager>;
+}
+
 const BatteryStatusIndicator = () => {
     const [batteryLevel, setBatteryLevel] = useState<number | null>(null);
     const [isCharging, setIsCharging] = useState<boolean>(false);
@@ -7,7 +19,7 @@ const BatteryStatusIndicator = () => {
     
     useEffect(() => {
         if ('getBattery' in navigator) {
-            (navigator as any).getBattery().then((battery: any) => {
+            (navigator as NavigatorWithBattery).getBattery().then((battery: BatteryManager) => {
                 setBatteryLevel(Math.round(battery.level * 100));
                 setIsCharging(battery.charging);
                 battery.addEventListener('levelchange', () => {
