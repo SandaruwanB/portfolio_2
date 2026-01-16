@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Projects from "./components/projects";
+import Projects from "./pages/projects";
 
 export default function Home() {
   const [isProjectOpen, setIsProjectOpen] = useState(false);
@@ -23,7 +23,6 @@ export default function Home() {
         <div className="absolute bottom-1/4 left-1/3 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
       </div>
 
-      {/* Ubuntu-style top panel */}
       <div className="absolute top-0 left-0 right-0 h-8 bg-gray-800/80 backdrop-blur-sm border-b border-gray-700/50">
         <div className="flex items-center justify-between h-full px-4">
           <div className="text-sm text-gray-300">Portfolio Desktop</div>
@@ -35,9 +34,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Desktop content */}
       <div className="pt-8 flex flex-col items-center justify-center min-h-screen relative">
-        {/* Desktop icon/name */}
         <div className="mb-8">
           <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 border border-white/20">
             <div className="text-2xl font-bold text-center text-white mb-2">Sandaruwan Bandara</div>
@@ -45,10 +42,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Ubuntu-style taskbar */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
           <div className="flex items-center space-x-3 px-6 py-3 bg-gray-800/90 backdrop-blur-md rounded-full border border-gray-600/50 shadow-2xl">
-            {/* Projects folder icon */}
             <div 
               className="flex flex-col items-center cursor-pointer group hover:scale-110 transition-transform duration-200"
               onClick={handleOpenProjects}
@@ -61,7 +56,6 @@ export default function Home() {
               <span className="text-xs text-gray-300 group-hover:text-white transition-colors">Projects</span>
             </div>
 
-            {/* Terminal icon */}
             <div className="flex flex-col items-center cursor-pointer group hover:scale-110 transition-transform duration-200">
               <div className="w-12 h-12 bg-gray-700 rounded-lg flex items-center justify-center mb-1 group-hover:bg-gray-600 transition-colors">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,7 +68,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Projects Window */}
       {isProjectOpen && (
         <Projects isOpen={isProjectOpen} onClose={handleCloseProjects} />
       )}
