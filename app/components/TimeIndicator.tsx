@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 const TimeIndicator = () => {
     const [currentTime, setCurrentTime] = useState<string>('');
+    const [showColon, setShowColon] = useState<boolean>(true);
 
     useEffect(() => {
         const updateTime = () => {
@@ -17,14 +18,23 @@ const TimeIndicator = () => {
             
             setCurrentTime(`${hours}:${minutesStr} ${ampm}`);
         };
+        
         updateTime();
-        const intervalId = setInterval(updateTime, 1000);
-        return () => clearInterval(intervalId);
+        const timeIntervalId = setInterval(updateTime, 1000);
+        
+        const colonIntervalId = setInterval(() => {
+            setShowColon(prev => !prev);
+        }, 1000);
+        
+        return () => {
+            clearInterval(timeIntervalId);
+            clearInterval(colonIntervalId);
+        };
     }, []);
 
     return (
-        <div className="text-xs text-gray-300 font-medium">
-            {currentTime}
+        <div className="text-xs text-gray-300 font-bold">
+            {currentTime.replace(':', showColon ? ':' : ' ')}
         </div>
     );
 };

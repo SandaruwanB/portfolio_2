@@ -92,7 +92,9 @@ const WindowContainer: React.FC<WindowContainerProps> = ({
             setIsResizing(false);
             setIsDragging(false);
         }
+    }, [isOpen]);
 
+    useEffect(() => {
         const handleResize = () => {
             if (isOpen && !isFullscreen && !isResizing && !isDragging) {
                 setWindowDimensions(prev => ({
@@ -121,20 +123,20 @@ const WindowContainer: React.FC<WindowContainerProps> = ({
         const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
         const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
     
-        setDragOffset({
-            x: clientX - windowDimensions.x,
-            y: clientY - windowDimensions.y
-        });
+        const offsetX = clientX - windowDimensions.x;
+        const offsetY = clientY - windowDimensions.y;
+        const width = windowDimensions.width;
+        const height = windowDimensions.height;
 
         const handleMouseMove = (e: MouseEvent | TouchEvent) => {
             const currentX = 'touches' in e ? e.touches[0].clientX : e.clientX;
             const currentY = 'touches' in e ? e.touches[0].clientY : e.clientY;
       
-            let newX = currentX - dragOffset.x;
-            let newY = currentY - dragOffset.y;
+            let newX = currentX - offsetX;
+            let newY = currentY - offsetY;
 
-            const maxX = window.innerWidth - windowDimensions.width;
-            const maxY = window.innerHeight - windowDimensions.height;
+            const maxX = window.innerWidth - width;
+            const maxY = window.innerHeight - height;
       
             newX = Math.max(0, Math.min(newX, maxX));
             newY = Math.max(0, Math.min(newY, maxY));
