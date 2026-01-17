@@ -5,16 +5,21 @@ import Projects from "./pages/projects";
 import Header from "./components/Header";
 import BottomBar, { BottomBarMenuItem } from "./components/BottomBar";
 import Contact from "./pages/contact";
+import Blog from "./pages/blog";
 
 export default function Home() {
   const [isProjectOpen, setIsProjectOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isBlogOpen, setIsBlogOpen] = useState(false);
 
   const handleOpenProjects = () => { setIsProjectOpen(true); };
   const handleCloseProjects = () => { setIsProjectOpen(false); };
 
   const handleOpenContact = () => { setIsContactOpen(true); }
   const handleCloseContact = () => { setIsContactOpen(false); }
+
+  const handleOpenBlog = () => { setIsBlogOpen(true); }
+  const handleCloseBlog = () => { setIsBlogOpen(false); }
 
   const menuItems: BottomBarMenuItem[] = [
     {
@@ -30,8 +35,8 @@ export default function Home() {
       onClick: handleOpenProjects,
     },
     {
-      id: 'contact',
-      label: 'Contact',
+      id: 'blog',
+      label: 'Blog',
       icon: (
         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -39,6 +44,18 @@ export default function Home() {
       ),
       bgColor: 'bg-blue-500',
       hoverColor: 'group-hover:bg-blue-400',
+      onClick: handleOpenBlog,
+    },
+    {
+      id: 'contact',
+      label: 'Contact',
+      icon: (
+        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      ),
+      bgColor: 'bg-purple-500',
+      hoverColor: 'group-hover:bg-purple-400',
       onClick: handleOpenContact,
     },
     {
@@ -76,6 +93,9 @@ export default function Home() {
       )}
       {isContactOpen && (
         <Contact isOpen={isContactOpen} onClose={handleCloseContact} />
+      )}
+      {isBlogOpen && (
+        <Blog isOpen={isBlogOpen} onClose={handleCloseBlog} />
       )}
     </div>
   );
