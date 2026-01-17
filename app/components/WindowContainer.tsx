@@ -25,7 +25,6 @@ const WindowContainer: React.FC<WindowContainerProps> = ({
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
-    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const [windowDimensions, setWindowDimensions] = useState({
         width: 0,
         height: 0,
