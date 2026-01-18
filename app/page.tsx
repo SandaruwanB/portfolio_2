@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import BottomBar, { BottomBarMenuItem } from "./components/BottomBar";
 import Contact from "./pages/contact";
 import Blog from "./pages/blog";
+import Image from "next/image";
 
 export default function Home() {
   const [isProjectOpen, setIsProjectOpen] = useState(false);
@@ -78,10 +79,28 @@ export default function Home() {
       <Header />
       <div className="pt-8 flex flex-col items-center justify-center min-h-screen relative">
         
-        <div className="mb-8">
-          <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 border border-white/20">
-            <div className="text-2xl font-bold text-center text-white mb-2">Sandaruwan Bandara</div>
-            <div className="text-sm text-gray-300 text-center">Software Developer Portfolio</div>
+        <div className="mb-8 w-full max-w-6xl px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div className="relative w-full aspect-square max-w-md mx-auto">
+              <Image 
+                src="/images/bg_img.png" 
+                alt="bg_img" 
+                fill
+                className="object-contain rounded-lg"
+                priority
+              />
+            </div>
+            <div className="text-white space-y-4">
+              <h1 className="text-4xl md:text-5xl font-bold animate-pulse">
+                Welcome
+              </h1>
+              <p className="text-xl md:text-2xl animate-fadeIn">
+                Sandaruwan Bandara
+              </p>
+              <p className="text-lg md:text-xl text-gray-300 animate-slideIn">
+                Software Developer
+              </p>
+            </div>
           </div>
         </div>
 
