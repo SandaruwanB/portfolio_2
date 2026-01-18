@@ -35,7 +35,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ menuItems }) => {
 
                 <div className='px-[0.5px] bg-white h-10'></div>
 
-                <div className="cursor-pointer group hover:scale-110 transition-transform duration-200">
+                <div className="flex flex-col items-center cursor-pointer group hover:scale-110 transition-transform duration-200">
                     <DottedIcon />
                 </div>
             </div>
