@@ -76,8 +76,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+      <div className="sunrise" aria-hidden="true" />
       <Header />
-      <div className="pt-8 flex flex-col items-center justify-center min-h-screen relative">
+      <div className="pt-8 flex flex-col items-center justify-center min-h-screen relative z-10">
         
         <div className="mb-8 w-full max-w-6xl px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">

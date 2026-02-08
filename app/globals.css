@@ -106,6 +106,46 @@ body {
   overflow: hidden;
 }
 
+/* Sunrise background effect — rises from below the bottom bar */
+.sunrise {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%) translateY(100%);
+  width: 60rem;
+  height: 50rem;
+  background: radial-gradient(
+    circle at 50% 15%,
+    #ffe082 0%,
+    #ffcc33 20%,
+    rgba(255, 183, 77, 0.7) 35%,
+    rgba(255, 140, 64, 0.35) 50%,
+    rgba(255, 100, 50, 0.1) 65%,
+    transparent 65%
+  );
+  filter: blur(30px);
+  border-radius: 50%;
+  z-index: 5;
+  opacity: 0;
+  animation: sunrise-rise 5s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes sunrise-rise {
+  0% {
+    transform: translateX(-50%) translateY(100%) scale(0.7);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.85;
+  }
+  100% {
+    /* Top edge of the glow sits right behind the bottom bar */
+    transform: translateX(-50%) translateY(55%) scale(1);
+    opacity: 1;
+  }
+}
+
 /* Line clamp utilities for responsive text truncation */
 .line-clamp-2 {
   display: -webkit-box;
