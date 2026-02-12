@@ -27,6 +27,8 @@ const Calendar = () => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
+
+        console.log(mounted);
     }, [isOpen]);
 
     const getDaysInMonth = (date: Date) => {
