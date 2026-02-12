@@ -75,19 +75,19 @@ export default function Home() {
   
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#090909' }}>
       <div className="sunrise" aria-hidden="true" />
       <Header />
-      <div className="pt-8 flex flex-col items-center justify-center min-h-screen relative z-10">
+      <div className="pt-8 flex flex-col items-center justify-end min-h-screen relative z-10 pb-28">
         
         <div className="mb-8 w-full max-w-6xl px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="relative w-full aspect-square max-w-md mx-auto">
+          <div className="flex flex-col justify-center items-center gap-8 items-center">
+            <div className="relative w-64 h-80 md:w-80 md:h-96 mx-auto rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/20 backdrop-blur-sm bg-white/5">
               <Image 
-                src="/images/bg_img.png" 
-                alt="bg_img" 
+                src="/images/bg_img.webp" 
+                alt="Sandaruwan Bandara" 
                 fill
-                className="object-contain rounded-lg"
+                className="object-cover"
                 priority
               />
             </div>

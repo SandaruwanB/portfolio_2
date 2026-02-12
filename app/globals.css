@@ -117,14 +117,14 @@ body {
   background: radial-gradient(
     circle at 50% 15%,
     #ffe082 0%,
-    #ffcc33 20%,
-    rgba(255, 183, 77, 0.7) 35%,
+    #ffcc33 15%,
+    rgba(255, 183, 77, 0.7) 25%,
     rgba(255, 140, 64, 0.35) 50%,
     rgba(255, 100, 50, 0.1) 65%,
     transparent 65%
   );
-  filter: blur(30px);
-  border-radius: 50%;
+  filter: blur(40px);
+  border-radius: 60%;
   z-index: 5;
   opacity: 0;
   animation: sunrise-rise 5s ease-out forwards;
