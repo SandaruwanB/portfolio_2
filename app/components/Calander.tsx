@@ -5,7 +5,13 @@ import { useEffect, useRef, useState } from 'react';
 const Calendar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [mounted, setMounted] = useState(false);
     const calendarRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setMounted(true);
+        setCurrentDate(new Date());
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {

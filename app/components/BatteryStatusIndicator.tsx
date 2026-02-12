@@ -16,9 +16,12 @@ const BatteryStatusIndicator = () => {
     const [batteryLevel, setBatteryLevel] = useState<number | null>(null);
     const [isCharging, setIsCharging] = useState<boolean>(false);
     const [batterySupported, setBatterySupported] = useState<boolean>(true);
+    const [mounted, setMounted] = useState(false);
     
     useEffect(() => {
-        if ('getBattery' in navigator) {
+        setMounted(true);
+        
+        if (typeof window !== 'undefined' && 'getBattery' in navigator) {
             (navigator as NavigatorWithBattery).getBattery().then((battery: BatteryManager) => {
                 setBatteryLevel(Math.round(battery.level * 100));
                 setIsCharging(battery.charging);
@@ -34,6 +37,10 @@ const BatteryStatusIndicator = () => {
             setBatterySupported(false);
         }
     }, []);
+
+    if (!mounted) {
+        return null;
+    }
 
     return (
         <>

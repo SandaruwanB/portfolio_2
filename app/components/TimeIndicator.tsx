@@ -5,8 +5,11 @@ import { useEffect, useState } from 'react';
 const TimeIndicator = () => {
     const [currentTime, setCurrentTime] = useState<string>('');
     const [showColon, setShowColon] = useState<boolean>(true);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
+        
         const updateTime = () => {
             const now = new Date();
             let hours = now.getHours();
@@ -31,6 +34,14 @@ const TimeIndicator = () => {
             clearInterval(colonIntervalId);
         };
     }, []);
+
+    if (!mounted) {
+        return (
+            <div className="text-xs text-gray-300 font-bold">
+                --:-- --
+            </div>
+        );
+    }
 
     return (
         <div className="text-xs text-gray-300 font-bold">
