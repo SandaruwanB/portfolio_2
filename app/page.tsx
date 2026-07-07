@@ -75,14 +75,14 @@ export default function Home() {
   
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#090909' }}>
-      <div className="sunrise" aria-hidden="true" />
+    <div className="min-h-screen relative overflow-hidden bg-slate-100 dark:bg-[#090909] transition-colors duration-300">
+      <div className="sunrise opacity-40 dark:opacity-100 transition-opacity duration-300" aria-hidden="true" />
       <Header />
       <div className="pt-8 flex flex-col items-center justify-end min-h-screen relative z-10 pb-28">
         
         <div className="mb-8 w-full max-w-6xl px-4">
-          <div className="flex flex-col justify-center items-center gap-8 items-center">
-            <div className="relative w-64 h-80 md:w-80 md:h-96 mx-auto rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/20 backdrop-blur-sm bg-white/5">
+          <div className="flex flex-col justify-center items-center gap-8">
+            <div className="relative w-64 h-80 md:w-80 md:h-96 mx-auto rounded-2xl overflow-hidden shadow-2xl ring-1 ring-black/10 dark:ring-white/20 backdrop-blur-sm bg-black/5 dark:bg-white/5">
               <Image 
                 src="/images/bg_img.webp" 
                 alt="Sandaruwan Bandara" 
@@ -91,14 +91,14 @@ export default function Home() {
                 priority
               />
             </div>
-            <div className="text-white space-y-4">
-              <h1 className="text-4xl md:text-5xl font-bold animate-pulse">
+            <div className="text-gray-900 dark:text-white space-y-4 text-center">
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white animate-pulse">
                 Welcome
               </h1>
-              <p className="text-xl md:text-2xl animate-fadeIn">
+              <p className="text-xl md:text-2xl text-gray-900 dark:text-gray-100 animate-fadeIn">
                 Sandaruwan Bandara
               </p>
-              <p className="text-lg md:text-xl text-gray-300 animate-slideIn">
+              <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 animate-slideIn">
                 Software Developer
               </p>
             </div>

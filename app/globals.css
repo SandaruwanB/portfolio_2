@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-    @apply bg-white dark:bg-gray-950 text-gray-900 dark:text-white;
+  font-family: 'Inter', sans-serif;
+  @apply bg-white dark:bg-gray-950 text-gray-900 dark:text-white;
 }
 
 /* Custom animations for Ubuntu desktop-like experience */
@@ -12,6 +15,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -23,6 +27,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -34,6 +39,7 @@ body {
     opacity: 0;
     transform: scale(0.8);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -45,6 +51,7 @@ body {
     opacity: 0;
     transform: translateX(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -114,15 +121,13 @@ body {
   transform: translateX(-50%) translateY(100%);
   width: 60rem;
   height: 50rem;
-  background: radial-gradient(
-    circle at 50% 15%,
-    #ffe082 0%,
-    #ffcc33 15%,
-    rgba(255, 183, 77, 0.7) 25%,
-    rgba(255, 140, 64, 0.35) 50%,
-    rgba(255, 100, 50, 0.1) 65%,
-    transparent 65%
-  );
+  background: radial-gradient(circle at 50% 15%,
+      #ffe082 0%,
+      #ffcc33 15%,
+      rgba(255, 183, 77, 0.7) 25%,
+      rgba(255, 140, 64, 0.35) 50%,
+      rgba(255, 100, 50, 0.1) 65%,
+      transparent 65%);
   filter: blur(40px);
   border-radius: 60%;
   z-index: 5;
@@ -136,9 +141,11 @@ body {
     transform: translateX(-50%) translateY(100%) scale(0.7);
     opacity: 0;
   }
+
   40% {
     opacity: 0.85;
   }
+
   100% {
     /* Top edge of the glow sits right behind the bottom bar */
     transform: translateX(-50%) translateY(55%) scale(1);

@@ -25,12 +25,17 @@ const WindowContainer: React.FC<WindowContainerProps> = ({
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const [windowDimensions, setWindowDimensions] = useState({
         width: 0,
         height: 0,
         x: 0,
         y: 0
     });
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const getResponsiveDimensions = () => {
         const screenWidth = window.innerWidth;
@@ -278,7 +283,7 @@ const WindowContainer: React.FC<WindowContainerProps> = ({
             <div className={`w-full h-full bg-gray-100 dark:bg-gray-900 shadow-2xl border border-gray-300 dark:border-gray-700 flex flex-col overflow-hidden relative ${
                 isFullscreen ? 'rounded-none' : 'rounded-lg'
             }`}>
-                {!isFullscreen && typeof window !== 'undefined' && window.innerWidth >= 768 && (
+                {!isFullscreen && mounted && window.innerWidth >= 768 && (
                     <ResizeHandles onResizeStart={handleResizeStart} />
                 )}
 
