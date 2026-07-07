@@ -113,43 +113,35 @@ body {
   overflow: hidden;
 }
 
-/* Sunrise background effect — rises from below the bottom bar */
+/* Sunrise background effect — a soft, breathing ambient glow behind the layout */
 .sunrise {
   position: fixed;
   left: 50%;
   bottom: 0;
-  transform: translateX(-50%) translateY(100%);
+  transform: translateX(-50%) translateY(55%);
   width: 60rem;
   height: 50rem;
   background: radial-gradient(circle at 50% 15%,
-      #ffe082 0%,
-      #ffcc33 15%,
-      rgba(255, 183, 77, 0.7) 25%,
-      rgba(255, 140, 64, 0.35) 50%,
-      rgba(255, 100, 50, 0.1) 65%,
+      rgba(251, 146, 60, 0.5) 0%,
+      rgba(249, 115, 22, 0.35) 15%,
+      rgba(217, 119, 6, 0.2) 30%,
+      rgba(194, 65, 12, 0.08) 50%,
       transparent 65%);
-  filter: blur(40px);
+  filter: blur(60px);
   border-radius: 60%;
   z-index: 5;
-  opacity: 0;
-  animation: sunrise-rise 5s ease-out forwards;
+  transition: opacity 1s ease-in-out;
+  animation: sunrise-breath 12s ease-in-out infinite alternate;
   pointer-events: none;
 }
 
-@keyframes sunrise-rise {
+@keyframes sunrise-breath {
   0% {
-    transform: translateX(-50%) translateY(100%) scale(0.7);
-    opacity: 0;
-  }
-
-  40% {
-    opacity: 0.85;
+    transform: translateX(-50%) translateY(57%) scale(0.96);
   }
 
   100% {
-    /* Top edge of the glow sits right behind the bottom bar */
-    transform: translateX(-50%) translateY(55%) scale(1);
-    opacity: 1;
+    transform: translateX(-50%) translateY(53%) scale(1.04);
   }
 }
 
