@@ -7,21 +7,19 @@ import BottomBar, { BottomBarMenuItem } from "./components/BottomBar";
 import Contact from "./pages/contact";
 import Blog from "./pages/blog";
 import Image from "next/image";
+const words = ["Software Engineer", "Fullstack Developer", "Business Solution Provider", "IT Expert", "IoT Enthusiast", "Open Source Contributor"];
 
 export default function Home() {
   const [isProjectOpen, setIsProjectOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isBlogOpen, setIsBlogOpen] = useState(false);
 
-  const words = ["Software Engineer", "Fullstack Developer", "Business Solution Provider", "IT Expert", "IoT Enthusiast", "Open Source Contributor"];
   const [currentText, setCurrentText] = useState("");
   const [wordIndex, setWordIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(150);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-
     const handleType = () => {
       const fullWord = words[wordIndex];
 
@@ -45,7 +43,7 @@ export default function Home() {
       }
     };
 
-    timer = setTimeout(handleType, typingSpeed);
+    const timer = setTimeout(handleType, typingSpeed);
     return () => clearTimeout(timer);
   }, [currentText, isDeleting, wordIndex, typingSpeed]);
 
