@@ -5,11 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 const Calendar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [mounted, setMounted] = useState(false);
     const calendarRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setMounted(true);
         setCurrentDate(new Date());
     }, []);
 
@@ -27,8 +25,6 @@ const Calendar = () => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-
-        console.log(mounted);
     }, [isOpen]);
 
     const getDaysInMonth = (date: Date) => {
@@ -58,11 +54,10 @@ const Calendar = () => {
             days.push(
                 <div
                     key={day}
-                    className={`text-center py-2 rounded-lg text-sm ${
-                        isToday 
-                            ? 'bg-orange-500 text-white font-bold' 
-                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                    } cursor-pointer transition-colors`}
+                    className={`text-center py-2 rounded-lg text-sm ${isToday
+                        ? 'bg-orange-500 text-white font-bold'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                        } cursor-pointer transition-colors`}
                 >
                     {day}
                 </div>
