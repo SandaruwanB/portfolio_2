@@ -90,7 +90,7 @@ const Calendar = () => {
                     e.stopPropagation();
                     setIsOpen(!isOpen);
                 }}
-                className="flex items-center justify-center p-1.5 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded transition-colors"
+                className="flex items-center justify-center p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200/50 dark:hover:bg-gray-700/50 rounded transition-colors"
                 title="Calendar"
             >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

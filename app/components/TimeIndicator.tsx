@@ -37,14 +37,14 @@ const TimeIndicator = () => {
 
     if (!mounted) {
         return (
-            <div className="text-xs text-gray-300 font-bold">
+            <div className="text-xs text-gray-600 dark:text-gray-300 font-bold">
                 --:-- --
             </div>
         );
     }
 
     return (
-        <div className="text-xs text-gray-300 font-bold">
+        <div className="text-xs text-gray-600 dark:text-gray-300 font-bold">
             {currentTime.replace(':', showColon ? ':' : ' ')}
         </div>
     );
