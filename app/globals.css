@@ -1,168 +1,117 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
 body {
-  font-family: 'Inter', sans-serif;
-  @apply bg-white dark:bg-gray-950 text-gray-900 dark:text-white;
+  font-family: var(--font-inter);
+  @apply bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 antialiased transition-colors duration-200 overflow-x-hidden;
 }
 
-/* Custom animations for Ubuntu desktop-like experience */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.font-mono {
+  font-family: var(--font-mono);
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Subtle grid backdrop for light & dark */
+.bg-grid-pattern {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
 }
 
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+.dark .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
-@keyframes slideIn {
-  from {
+/* Directional Page Navigation Transitions */
+@keyframes slideFromRight {
+  0% {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(50px);
   }
-
-  to {
+  100% {
     opacity: 1;
     transform: translateX(0);
   }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.6s ease-out;
+@keyframes slideFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.animate-slideUp {
-  animation: slideUp 0.8s ease-out both;
+@keyframes pageFade {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.animate-scaleIn {
-  animation: scaleIn 0.4s ease-out;
+.animate-slide-from-right {
+  animation: slideFromRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-slideIn {
-  animation: slideIn 1s ease-out 0.3s both;
+.animate-slide-from-left {
+  animation: slideFromLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Custom scrollbar for Ubuntu-like appearance */
+.animate-page-fade {
+  animation: pageFade 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Infinite Marquee Animation (Auto slide to left) */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800;
+  @apply bg-zinc-100 dark:bg-[#08090d];
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  @apply bg-zinc-300 dark:bg-zinc-800 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-gray-500;
-}
-
-/* Line clamp utilities for responsive text truncation */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-4 {
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Sunrise background effect — a soft, breathing ambient glow behind the layout */
-.sunrise {
-  position: fixed;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%) translateY(55%);
-  width: 60rem;
-  height: 50rem;
-  background: radial-gradient(circle at 50% 15%,
-      rgba(251, 146, 60, 0.5) 0%,
-      rgba(249, 115, 22, 0.35) 15%,
-      rgba(217, 119, 6, 0.2) 30%,
-      rgba(194, 65, 12, 0.08) 50%,
-      transparent 65%);
-  filter: blur(60px);
-  border-radius: 60%;
-  z-index: 5;
-  transition: opacity 1s ease-in-out;
-  animation: sunrise-breath 12s ease-in-out infinite alternate;
-  pointer-events: none;
-}
-
-@keyframes sunrise-breath {
-  0% {
-    transform: translateX(-50%) translateY(57%) scale(0.96);
-  }
-
-  100% {
-    transform: translateX(-50%) translateY(53%) scale(1.04);
-  }
-}
-
-/* Line clamp utilities for responsive text truncation */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-4 {
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  @apply bg-zinc-400 dark:bg-zinc-700;
 }

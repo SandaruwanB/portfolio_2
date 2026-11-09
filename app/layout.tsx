@@ -2,25 +2,37 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Sandaruwan Bandara - Software Engineer",
-  description: "I'm Sandaruwan Bandara, a Software Engineer. I specialize in Android development, API integrations, Odoo ERP, and web development. I build scalable, efficient applications to solve real-world problems.",
+  title: "Sandaruwan Bandara — Software Architect & Principal Systems Engineer",
+  description: "Architecting high-throughput, fault-tolerant distributed systems, enterprise ERP platforms, IoT & AI solutions that scale under load.",
+  keywords: [
+    "Software Architect",
+    "Principal Software Engineer",
+    "Distributed Systems",
+    "Java",
+    "Node.js",
+    "Microservices",
+    "Enterprise Architecture",
+    "Odoo ERP",
+    "IoT Solutions",
+    "Business Process Automation",
+    "High Throughput Backend"
+  ],
+  authors: [{ name: "Sandaruwan Bandara" }],
+  openGraph: {
+    title: "Sandaruwan Bandara — Software Architect & Principal Systems Engineer",
+    description: "Architecting high-throughput, fault-tolerant distributed systems, enterprise platforms, IoT & AI solutions.",
+    type: "website",
+  },
 };
 
-export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: `
-          try {
-            if (localStorage.theme === 'light') {
-              document.documentElement.classList.remove('dark')
-            } else {
-              document.documentElement.classList.add('dark')
-            }
-          } catch (_) {}
-        ` }} />
-      </head>
-      <body className="antialiased" suppressHydrationWarning>
+    <html lang="en" className="dark scroll-smooth">
+      <body className="bg-[#08090d] text-zinc-100 min-h-screen">
         {children}
       </body>
     </html>
