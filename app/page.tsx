@@ -3,10 +3,9 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
+import FeaturedSystems from "./components/FeaturedSystems";
 import CorePillars from "./components/CorePillars";
-import ArchitectureCases from "./components/ArchitectureCases";
-import Capabilities from "./components/Capabilities";
-import ContactSection from "./components/ContactSection";
+import ExecutiveCTA from "./components/ExecutiveCTA";
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -15,10 +14,9 @@ export default function Home() {
       <Navbar />
       <main className="flex-1">
         <Hero />
+        <FeaturedSystems />
         <CorePillars />
-        <ArchitectureCases />
-        <Capabilities />
-        <ContactSection />
+        <ExecutiveCTA />
       </main>
       <Footer />
     </div>

@@ -4,6 +4,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
+import { ArrowRight } from "../components/Icons";
 
 interface BlogPost {
   id: string;
@@ -117,10 +118,10 @@ export default function BlogPage() {
 
                   <Link
                     href="/contact"
-                    className="text-xs font-mono font-medium text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+                    className="text-xs font-mono font-medium text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
                   >
                     <span>Read Article / Discuss</span>
-                    <span>→</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </article>
@@ -130,10 +131,10 @@ export default function BlogPage() {
           <div className="mt-12 text-center">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-emerald-500 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-emerald-500 transition-colors"
             >
               <span>Interested in discussing an engineering topic or case study? Contact me</span>
-              <span>→</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 

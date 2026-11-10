@@ -4,6 +4,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
+import { ArrowRight } from "../components/Icons";
 
 interface Product {
   id: string;
@@ -168,9 +169,10 @@ export default function ProductsPage() {
                   <div className="md:col-span-4 flex items-center justify-start md:justify-end gap-2">
                     <Link
                       href="/contact"
-                      className="px-4 py-2 rounded-xl text-xs font-semibold bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 hover:opacity-90 transition-opacity"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 hover:opacity-90 transition-opacity"
                     >
-                      Inquire / Custom Implementation →
+                      <span>Inquire / Custom Implementation</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </div>
@@ -181,10 +183,10 @@ export default function ProductsPage() {
           <div className="mt-12 text-center">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-emerald-500 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-emerald-500 transition-colors"
             >
               <span>Need a customized architecture or technical consultation? Reach out</span>
-              <span>→</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 

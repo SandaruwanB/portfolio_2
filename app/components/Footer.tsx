@@ -12,7 +12,7 @@ export default function Footer() {
           </span>
           <span className="text-zinc-400 dark:text-zinc-600"> / Systems Architect</span>
         </div>
-        <div className="text-zinc-500 text-[11px]">
+        <div suppressHydrationWarning className="text-zinc-500 text-[11px]">
           © {new Date().getFullYear()} • High-Throughput & Fault-Tolerant Systems
         </div>
       </div>

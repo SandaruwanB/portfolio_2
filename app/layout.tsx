@@ -47,7 +47,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 min-h-screen antialiased transition-colors duration-200">
+      <body
+        suppressHydrationWarning
+        className="bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 min-h-screen antialiased transition-colors duration-200"
+      >
         {children}
       </body>
     </html>
