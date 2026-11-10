@@ -3,10 +3,11 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { Copy, Check, LinkedIn, GitHub, ArrowUpRight, Send, Mail } from "../components/Icons";
+import { Copy, Check, LinkedIn, GitHub, WhatsApp, ArrowUpRight, Send, Mail } from "../components/Icons";
 
 export default function ContactPage() {
   const [copied, setCopied] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState("Distributed Systems Architecture");
@@ -25,6 +26,12 @@ export default function ContactPage() {
     navigator.clipboard.writeText("sandarusbandara110@gmail.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleCopyPhone = () => {
+    navigator.clipboard.writeText("+94761183372");
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2000);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -83,6 +90,44 @@ export default function ContactPage() {
                           </>
                         )}
                       </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="text-[11px] text-zinc-400 dark:text-zinc-500 mb-1">DIRECT WHATSAPP</div>
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <WhatsApp className="w-3.5 h-3.5 text-[#25D366] shrink-0" />
+                        <span className="text-zinc-800 dark:text-zinc-200 text-xs truncate font-mono">+94 76 118 3372</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <button
+                          onClick={handleCopyPhone}
+                          title="Copy Phone Number"
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 transition-colors font-sans font-medium text-[11px]"
+                        >
+                          {copiedPhone ? (
+                            <>
+                              <Check className="w-3 h-3 text-emerald-500" />
+                              <span>Copied</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3 h-3 text-zinc-500" />
+                              <span>Copy</span>
+                            </>
+                          )}
+                        </button>
+                        <a
+                          href="https://wa.me/94761183372?text=Hello%20Sandaruwan,%20I'd%20like%20to%20discuss%20an%20engineering%20consultation."
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#25D366] hover:bg-[#20ba59] text-white transition-colors font-sans font-semibold text-[11px] shadow-xs"
+                        >
+                          <span>Chat</span>
+                          <ArrowUpRight className="w-3 h-3" />
+                        </a>
+                      </div>
                     </div>
                   </div>
 

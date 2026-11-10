@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, LinkedIn, GitHub } from "./Icons";
+import { ArrowRight, LinkedIn, GitHub, WhatsApp } from "./Icons";
 
 export default function Hero() {
   const competencies = [
@@ -63,6 +63,16 @@ export default function Hero() {
               >
                 <GitHub className="w-4 h-4" />
                 <span>GitHub</span>
+              </a>
+              <a
+                href="https://wa.me/94761183372?text=Hello%20Sandaruwan,%20I'd%20like%20to%20discuss%20an%20engineering%20consultation."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-zinc-900 dark:text-white bg-white dark:bg-zinc-800/90 border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-500 transition-all shadow-xs"
+                title="WhatsApp"
+              >
+                <WhatsApp className="w-4 h-4 text-[#25D366]" />
+                <span>WhatsApp</span>
               </a>
             </div>
 
