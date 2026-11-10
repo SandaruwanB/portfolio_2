@@ -32,7 +32,6 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-        {/* Brand identity */}
         <Link href="/" className="flex items-center gap-2 group">
           <span className="text-sm font-bold text-zinc-900 dark:text-white tracking-tight group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
             Sandaruwan Bandara
@@ -42,7 +41,6 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-1 bg-zinc-200/60 dark:bg-zinc-900/60 border border-zinc-300/60 dark:border-zinc-800/80 rounded-full px-3 py-1">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
@@ -62,7 +60,6 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right controls */}
         <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
 
@@ -73,7 +70,6 @@ export default function Navbar() {
             Initiate Contact
           </Link>
 
-          {/* Mobile hamburger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300"
@@ -90,7 +86,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
         <div className="md:hidden px-4 pt-2 pb-4 mt-2 mx-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xl space-y-1">
           {navLinks.map((link) => {

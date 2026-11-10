@@ -41,8 +41,6 @@ export default function ContactPage() {
 
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          
-          {/* Page Heading */}
           <div className="max-w-3xl mb-12">
             <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
               INITIATE ENGAGEMENT
@@ -56,8 +54,6 @@ export default function ContactPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-start">
-            
-            {/* Left Column: Direct channels */}
             <div className="lg:col-span-5 space-y-4">
               <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-4">
                 <h2 className="text-base font-semibold text-zinc-900 dark:text-white">Direct Communication</h2>
@@ -107,7 +103,6 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Right Column: Detailed Inquiry Form */}
             <div className="lg:col-span-7">
               <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 shadow-xs">
                 
@@ -133,8 +128,6 @@ export default function ContactPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    
-                    {/* Topic selector */}
                     <div>
                       <label className="block text-[11px] font-mono text-zinc-500 dark:text-zinc-400 mb-1.5">
                         ENGAGEMENT TOPIC

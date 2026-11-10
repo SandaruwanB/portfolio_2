@@ -18,7 +18,6 @@ body {
   font-family: var(--font-mono);
 }
 
-/* Subtle grid backdrop for light & dark */
 .bg-grid-pattern {
   background-size: 32px 32px;
   background-image: 
@@ -32,7 +31,6 @@ body {
     linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
-/* Directional Page Navigation Transitions */
 @keyframes slideFromRight {
   0% {
     opacity: 0;
@@ -78,7 +76,6 @@ body {
   animation: pageFade 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Infinite Marquee Animation (Auto slide to left) */
 @keyframes marquee {
   0% {
     transform: translateX(0%);
@@ -98,7 +95,6 @@ body {
   animation-play-state: paused;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

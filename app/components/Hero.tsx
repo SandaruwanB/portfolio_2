@@ -18,30 +18,17 @@ export default function Hero() {
 
   return (
     <section className="relative pt-20 pb-12 sm:pt-28 sm:pb-16 overflow-hidden">
-      {/* Background Architectural Grid & Ambient Aura */}
       <div className="absolute inset-0 bg-grid-pattern opacity-60 pointer-events-none" />
-      
-      {/* Ambient background aura */}
       <div className="absolute top-1/4 right-0 lg:right-6 w-[650px] h-[650px] bg-gradient-to-tr from-cyan-500/10 via-emerald-500/10 to-indigo-500/10 dark:from-cyan-500/15 dark:via-emerald-500/15 dark:to-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
-
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-        
-        {/* Main Hero Split Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
-          
-          {/* Left Column: Content */}
           <div className="lg:col-span-6 xl:col-span-6 space-y-6 text-left z-20">
-            {/* Headline */}
             <h1 className="text-3xl sm:text-4xl lg:text-[2.65rem] xl:text-[3rem] font-extrabold text-zinc-900 dark:text-white tracking-tight leading-[1.15]">
               Architecting scalable, fault-tolerant systems.
             </h1>
-
-            {/* Bio */}
             <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-lg font-normal">
               Principal Systems Engineer specializing in distributed backends, modular ERPs, and high-performance infrastructure. Turning complex bottlenecks into reliable systems.
             </p>
-
-            {/* Actions */}
             <div className="flex flex-wrap items-center gap-2.5 pt-2">
               <Link
                 href="/products"
@@ -83,14 +70,9 @@ export default function Hero() {
 
           </div>
 
-          {/* Right Column: Much Bigger, Steady Hero Portrait */}
           <div className="lg:col-span-6 xl:col-span-6 flex justify-center lg:justify-end -mt-8 sm:-mt-14 lg:-mt-20 xl:-mt-24 pointer-events-none">
             <div className="relative w-full max-w-[440px] sm:max-w-[540px] lg:max-w-[620px] xl:max-w-[680px]">
-              
-              {/* Backlight contour glow */}
               <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/15 via-cyan-500/10 to-transparent dark:from-emerald-500/20 dark:via-cyan-500/15 rounded-full blur-3xl scale-110 pointer-events-none" />
-
-              {/* Steady Portrait (No hover scale, zero borders) */}
               <div
                 className="relative w-full aspect-square"
                 style={{
@@ -113,7 +95,6 @@ export default function Hero() {
 
         </div>
 
-        {/* Auto-sliding Marquee Ticker directly below the Hero Area */}
         <div className="mt-8 sm:mt-12 pt-6 border-t border-zinc-200/80 dark:border-zinc-800/80 overflow-hidden">
           <div
             className="w-full overflow-hidden"
@@ -123,7 +104,6 @@ export default function Hero() {
             }}
           >
             <div className="animate-marquee flex items-center gap-3 select-none">
-              {/* First loop */}
               {competencies.map((item, idx) => (
                 <div
                   key={`loop-1-${idx}`}
@@ -132,8 +112,6 @@ export default function Hero() {
                   <span>{item}</span>
                 </div>
               ))}
-
-              {/* Duplicate loop for seamless infinite scroll */}
               {competencies.map((item, idx) => (
                 <div
                   key={`loop-2-${idx}`}

@@ -45,7 +45,6 @@ export default function ThemeToggle() {
       title={theme === "dark" ? "Switch to Light mode" : "Switch to Dark mode"}
     >
       {theme === "dark" ? (
-        // Sun icon for dark mode (click to switch to light)
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
@@ -55,7 +54,6 @@ export default function ThemeToggle() {
           />
         </svg>
       ) : (
-        // Moon icon for light mode (click to switch to dark)
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"

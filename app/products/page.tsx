@@ -106,8 +106,6 @@ export default function ProductsPage() {
 
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          
-          {/* Header */}
           <div className="max-w-3xl mb-12">
             <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
               SOLUTIONS & PLATFORMS
@@ -119,8 +117,6 @@ export default function ProductsPage() {
               Production-grade systems, modular ERP platforms, and distributed telemetry architectures designed to scale reliably under load.
             </p>
           </div>
-
-          {/* Products List */}
           <div className="space-y-6">
             {products.map((product) => (
               <div

@@ -65,8 +65,6 @@ export default function BlogPage() {
 
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          
-          {/* Header */}
           <div className="max-w-3xl mb-12">
             <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
               ENGINEERING INSIGHTS & ESSAYS
@@ -78,8 +76,6 @@ export default function BlogPage() {
               In-depth technical reflections on distributed systems, enterprise decoupling, ERP performance engineering, and high-throughput reliability.
             </p>
           </div>
-
-          {/* Posts Grid */}
           <div className="space-y-6">
             {posts.map((post) => (
               <article

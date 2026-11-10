@@ -68,7 +68,6 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Right Compact Form */}
           <div className="md:col-span-7">
             <form onSubmit={handleSubmit} className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

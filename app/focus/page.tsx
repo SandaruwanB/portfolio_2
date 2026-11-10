@@ -67,8 +67,7 @@ export default function FocusPage() {
 
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          
-          {/* Page Heading */}
+
           <div className="max-w-3xl mb-12">
             <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
               DISCIPLINES & EXPERTISE
@@ -81,7 +80,6 @@ export default function FocusPage() {
             </p>
           </div>
 
-          {/* Pillars List */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {pillars.map((pillar) => (
               <div

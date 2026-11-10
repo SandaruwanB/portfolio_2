@@ -81,8 +81,6 @@ export default function StackPage() {
 
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          
-          {/* Page Heading */}
           <div className="max-w-3xl mb-12">
             <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
               PRODUCTION TOOLBOX
@@ -94,8 +92,6 @@ export default function StackPage() {
               A comprehensive view of the core frameworks, persistence layers, distributed protocols, and DevOps infrastructure I deploy in production.
             </p>
           </div>
-
-          {/* Matrix Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {capabilityGroups.map((group) => (
               <div
