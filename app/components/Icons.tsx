@@ -29,6 +29,7 @@ export {
   Sparkles,
   Search,
   BookOpen,
+  Coffee,
 } from "lucide-react";
 
 // Standardized Brand Icons matching Lucide's 16x16 / 24x24 prop pattern
