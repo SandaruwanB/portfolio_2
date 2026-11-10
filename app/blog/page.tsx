@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
 import { ArrowRight } from "../components/Icons";
+import ScrollReveal from "../components/ScrollReveal";
 
 interface BlogPost {
   id: string;
@@ -78,53 +79,54 @@ export default function BlogPage() {
             </p>
           </div>
           <div className="space-y-6">
-            {posts.map((post) => (
-              <article
-                key={post.id}
-                className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 shadow-xs hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 font-medium">
-                      {post.category}
-                    </span>
-                    <span className="text-xs font-mono text-zinc-400 dark:text-zinc-500">
-                      • {post.readTime}
-                    </span>
-                  </div>
-                  <span className="text-xs font-mono text-zinc-400 dark:text-zinc-500">
-                    {post.date}
-                  </span>
-                </div>
-
-                <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2 leading-tight">
-                  {post.title}
-                </h2>
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-4xl mb-5">
-                  {post.excerpt}
-                </p>
-
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800">
-                  <div className="flex flex-wrap gap-1.5">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded"
-                      >
-                        {tag}
+            {posts.map((post, idx) => (
+              <ScrollReveal key={post.id} delay={idx * 100}>
+                <article
+                  className="p-6 sm:p-8 rounded-2xl bg-white/80 dark:bg-zinc-900/40 backdrop-blur-xs border border-zinc-200 dark:border-zinc-800 shadow-xs hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-emerald-600 dark:text-emerald-400 font-medium">
+                        {post.category}
                       </span>
-                    ))}
+                      <span className="text-xs font-mono text-zinc-400 dark:text-zinc-500">
+                        • {post.readTime}
+                      </span>
+                    </div>
+                    <span className="text-xs font-mono text-zinc-400 dark:text-zinc-500">
+                      {post.date}
+                    </span>
                   </div>
 
-                  <Link
-                    href="/contact"
-                    className="text-xs font-mono font-medium text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
-                  >
-                    <span>Read Article / Discuss</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </article>
+                  <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2 leading-tight">
+                    {post.title}
+                  </h2>
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-4xl mb-5">
+                    {post.excerpt}
+                  </p>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                    <div className="flex flex-wrap gap-1.5">
+                      {post.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <Link
+                      href="/contact"
+                      className="text-xs font-mono font-medium text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
+                    >
+                      <span>Read Article / Discuss</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </article>
+              </ScrollReveal>
             ))}
           </div>
 

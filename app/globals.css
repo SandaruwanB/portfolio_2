@@ -31,6 +31,22 @@ body {
     linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
+/* Project IDX Developer Grid with Intersection Points */
+.bg-idx-grid {
+  background-size: 44px 44px;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.14) 1px, transparent 0),
+    linear-gradient(to right, rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+}
+
+.dark .bg-idx-grid {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.15) 1px, transparent 0),
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
 @keyframes slideFromRight {
   0% {
     opacity: 0;

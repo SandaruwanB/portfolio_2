@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Copy, Check, LinkedIn, GitHub, WhatsApp, ArrowUpRight, Send, Mail } from "../components/Icons";
+import ScrollReveal from "../components/ScrollReveal";
 
 export default function ContactPage() {
   const [copied, setCopied] = useState(false);
@@ -63,8 +64,9 @@ export default function ContactPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-start">
             <div className="lg:col-span-5 space-y-4">
-              <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-4">
-                <h2 className="text-base font-semibold text-zinc-900 dark:text-white">Direct Communication</h2>
+              <ScrollReveal direction="up">
+                <div className="p-6 rounded-2xl bg-white/80 dark:bg-zinc-900/40 backdrop-blur-xs border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-4">
+                  <h2 className="text-base font-semibold text-zinc-900 dark:text-white">Direct Communication</h2>
                 
                 <div className="space-y-3 font-mono text-xs">
                   <div>
@@ -166,10 +168,12 @@ export default function ContactPage() {
                   <span>Available for Advisory & Contracts</span>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
+          </div>
 
-            <div className="lg:col-span-7">
-              <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 shadow-xs">
+          <div className="lg:col-span-7">
+            <ScrollReveal delay={150}>
+              <div className="p-6 sm:p-8 rounded-2xl bg-white/80 dark:bg-zinc-900/40 backdrop-blur-xs border border-zinc-200 dark:border-zinc-800 shadow-xs">
                 
                 <h2 className="text-base font-semibold text-zinc-900 dark:text-white mb-1">
                   Send Architecture Inquiry
@@ -262,9 +266,10 @@ export default function ContactPage() {
                 )}
 
               </div>
-            </div>
-
+            </ScrollReveal>
           </div>
+
+        </div>
 
         </div>
       </main>
