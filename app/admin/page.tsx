@@ -157,7 +157,13 @@ export default function AdminPage() {
     if (!editingProduct?.title) return;
     setProductUploading(true);
     try {
-      await saveProduct(editingProduct, editingProduct.id);
+      const cleanedProduct: Partial<Product> = {
+        ...editingProduct,
+        features: (editingProduct.features || []).map((f) => f.trim()).filter(Boolean),
+        stack: (editingProduct.stack || []).map((s) => s.trim()).filter(Boolean),
+        metrics: (editingProduct.metrics || []).filter((m) => m.label.trim() && m.value.trim()),
+      };
+      await saveProduct(cleanedProduct, cleanedProduct.id);
       setProductModalOpen(false);
       setEditingProduct(null);
       setActionMessage("Product saved successfully!");
@@ -443,6 +449,10 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                   title: "",
                   tag: "PRODUCT // SYSTEMS",
                   category: "Distributed Systems",
+                  platform: "Backend & Systems",
+                  pricingType: "Open Source",
+                  priceLabel: "MIT License",
+                  status: "Production",
                   summary: "",
                   features: [],
                   metrics: [{ label: "Throughput", value: "50k+ msg/s" }],
@@ -649,15 +659,102 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                 </div>
               </div>
 
-              <div>
-                <label className="block text-[11px] font-mono text-zinc-500 mb-1">CATEGORY</label>
-                <input
-                  type="text"
-                  value={editingProduct.category || ""}
-                  onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs"
-                  placeholder="e.g. Distributed Systems & High Concurrency"
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="sm:col-span-2">
+                  <label className="block text-[11px] font-mono text-zinc-500 mb-1">CATEGORY</label>
+                  <input
+                    type="text"
+                    value={editingProduct.category || ""}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs"
+                    placeholder="e.g. Distributed Systems & High Concurrency"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-mono text-zinc-500 mb-1">DISPLAY ORDER</label>
+                  <input
+                    type="number"
+                    min={1}
+                    value={editingProduct.order ?? 1}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, order: Number(e.target.value) || 1 })}
+                    className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <div>
+                  <label className="block text-[11px] font-mono text-zinc-500 mb-1">PLATFORM</label>
+                  <select
+                    value={editingProduct.platform || "Backend & Systems"}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, platform: e.target.value })}
+                    className="w-full px-2.5 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs"
+                  >
+                    <option value="Web App">Web App</option>
+                    <option value="Mobile App">Mobile App</option>
+                    <option value="Desktop App">Desktop App</option>
+                    <option value="Backend & Systems">Backend & Systems</option>
+                    <option value="ERP & Enterprise">ERP & Enterprise</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-mono text-zinc-500 mb-1">LICENSE / PRICING</label>
+                  <select
+                    value={editingProduct.pricingType || "Open Source"}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, pricingType: e.target.value })}
+                    className="w-full px-2.5 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs"
+                  >
+                    <option value="Open Source">Open Source</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Enterprise">Enterprise</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-mono text-zinc-500 mb-1">PRICE / LICENSE TAG</label>
+                  <input
+                    type="text"
+                    value={editingProduct.priceLabel || ""}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, priceLabel: e.target.value })}
+                    className="w-full px-2.5 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs"
+                    placeholder="MIT / $49 / Custom"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-mono text-zinc-500 mb-1">VERSION / STATUS</label>
+                  <input
+                    type="text"
+                    value={editingProduct.status || ""}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, status: e.target.value })}
+                    className="w-full px-2.5 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs"
+                    placeholder="Production / v2.4"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-mono text-zinc-500 mb-1">LIVE DEMO / DOWNLOAD URL</label>
+                  <input
+                    type="url"
+                    value={editingProduct.demoUrl || ""}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, demoUrl: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono"
+                    placeholder="https://demo.example.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-mono text-zinc-500 mb-1">GITHUB / REPO URL</label>
+                  <input
+                    type="url"
+                    value={editingProduct.repoUrl || ""}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, repoUrl: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono"
+                    placeholder="https://github.com/SandaruwanB/..."
+                  />
+                </div>
               </div>
 
               <div>
@@ -697,19 +794,82 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                   value={editingProduct.features?.join("\n") || ""}
                   onChange={(e) => setEditingProduct({ 
                     ...editingProduct, 
-                    features: e.target.value.split("\n").filter((f) => f.trim()) 
+                    features: e.target.value.split("\n")
                   })}
                   className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono resize-none"
                   placeholder="Asynchronous non-blocking workers&#10;In-memory Redis caching&#10;Zero packet loss"
                 />
               </div>
 
-              {/* IMAGE UPLOAD */}
+              {/* BENCHMARK METRICS */}
               <div>
-                <label className="block text-[11px] font-mono text-zinc-500 mb-1">
-                  PRODUCT DIAGRAM / ARCHITECTURE IMAGE
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-[11px] font-mono text-zinc-500">BENCHMARK METRICS</label>
+                  <button
+                    type="button"
+                    onClick={() => setEditingProduct({
+                      ...editingProduct,
+                      metrics: [...(editingProduct.metrics || []), { label: "", value: "" }],
+                    })}
+                    className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 hover:underline"
+                  >
+                    + Add Metric
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {(editingProduct.metrics || []).map((metric, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={metric.label}
+                        onChange={(e) => {
+                          const updated = [...(editingProduct.metrics || [])];
+                          updated[idx] = { ...updated[idx], label: e.target.value };
+                          setEditingProduct({ ...editingProduct, metrics: updated });
+                        }}
+                        placeholder="Label (e.g. Throughput)"
+                        className="flex-1 px-2.5 py-1.5 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs"
+                      />
+                      <input
+                        type="text"
+                        value={metric.value}
+                        onChange={(e) => {
+                          const updated = [...(editingProduct.metrics || [])];
+                          updated[idx] = { ...updated[idx], value: e.target.value };
+                          setEditingProduct({ ...editingProduct, metrics: updated });
+                        }}
+                        placeholder="Value (e.g. 50,000+ msg/s)"
+                        className="flex-1 px-2.5 py-1.5 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = (editingProduct.metrics || []).filter((_, i) => i !== idx);
+                          setEditingProduct({ ...editingProduct, metrics: updated });
+                        }}
+                        className="p-1.5 text-zinc-400 hover:text-red-500 font-mono text-xs"
+                        title="Remove Metric"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* IMAGE URL OR UPLOAD */}
+              <div className="space-y-2">
+                <label className="block text-[11px] font-mono text-zinc-500">
+                  PRODUCT BANNER / ARCHITECTURE IMAGE (URL OR UPLOAD)
                 </label>
-                <div className="flex items-center gap-3">
+                <input
+                  type="text"
+                  value={editingProduct.imageUrl || ""}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, imageUrl: e.target.value })}
+                  className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono"
+                  placeholder="https://... or /images/products/telemetry-engine.jpg"
+                />
+                <div className="flex flex-wrap items-center gap-3 pt-1">
                   <input
                     type="file"
                     accept="image/*"
@@ -724,10 +884,20 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                       className="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 underline font-mono"
                     >
                       <ExternalLink className="w-3 h-3" />
-                      <span>View Uploaded</span>
+                      <span>Open Image</span>
                     </a>
                   )}
                 </div>
+                {editingProduct.imageUrl && (
+                  <div className="mt-2 relative w-full h-36 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={editingProduct.imageUrl}
+                      alt="Product Banner Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex justify-end gap-2">
@@ -852,12 +1022,19 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                 />
               </div>
 
-              {/* IMAGE UPLOAD */}
-              <div>
-                <label className="block text-[11px] font-mono text-zinc-500 mb-1">
-                  COVER / DIAGRAM IMAGE
+              {/* IMAGE URL OR UPLOAD */}
+              <div className="space-y-2">
+                <label className="block text-[11px] font-mono text-zinc-500">
+                  COVER / DIAGRAM IMAGE (URL OR UPLOAD)
                 </label>
-                <div className="flex items-center gap-3">
+                <input
+                  type="text"
+                  value={editingBlog.imageUrl || ""}
+                  onChange={(e) => setEditingBlog({ ...editingBlog, imageUrl: e.target.value })}
+                  className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono"
+                  placeholder="https://... or /images/..."
+                />
+                <div className="flex flex-wrap items-center gap-3 pt-1">
                   <input
                     type="file"
                     accept="image/*"
@@ -872,10 +1049,20 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                       className="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 underline font-mono"
                     >
                       <ExternalLink className="w-3 h-3" />
-                      <span>View Uploaded</span>
+                      <span>Open Image</span>
                     </a>
                   )}
                 </div>
+                {editingBlog.imageUrl && (
+                  <div className="mt-2 relative w-full h-36 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={editingBlog.imageUrl}
+                      alt="Blog Cover Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex justify-end gap-2">

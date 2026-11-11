@@ -4,8 +4,8 @@ import {
   doc, 
   setDoc, 
   deleteDoc, 
-  query, 
-  orderBy 
+  onSnapshot,
+  Unsubscribe
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "./firebase";
@@ -15,13 +15,25 @@ import { defaultProducts, defaultBlogs } from "./defaultData";
 const PRODUCTS_COLLECTION = "products";
 const BLOGS_COLLECTION = "blogs";
 
+function sortProducts(list: Product[]): Product[] {
+  return [...list].sort((a, b) => {
+    const orderA = typeof a.order === "number" ? a.order : 9999;
+    const orderB = typeof b.order === "number" ? b.order : 9999;
+    if (orderA !== orderB) return orderA - orderB;
+    return (b.createdAt || 0) - (a.createdAt || 0);
+  });
+}
+
+function sortBlogs(list: BlogPost[]): BlogPost[] {
+  return [...list].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+}
+
 // ---------------------- PRODUCTS ----------------------
 
 export async function getProducts(): Promise<Product[]> {
   if (!db) return defaultProducts;
   try {
-    const q = query(collection(db, PRODUCTS_COLLECTION), orderBy("order", "asc"));
-    const snapshot = await getDocs(q);
+    const snapshot = await getDocs(collection(db, PRODUCTS_COLLECTION));
     if (snapshot.empty) {
       return defaultProducts;
     }
@@ -29,11 +41,41 @@ export async function getProducts(): Promise<Product[]> {
     snapshot.forEach((d) => {
       products.push({ id: d.id, ...d.data() } as Product);
     });
-    return products;
+    return sortProducts(products);
   } catch (error) {
     console.warn("Failed to fetch products from Firestore, using fallback defaults:", error);
     return defaultProducts;
   }
+}
+
+export function subscribeToProducts(
+  onData: (products: Product[], isLive: boolean) => void,
+  onError?: (err: Error) => void
+): Unsubscribe {
+  if (!db) {
+    onData(defaultProducts, false);
+    return () => {};
+  }
+
+  return onSnapshot(
+    collection(db, PRODUCTS_COLLECTION),
+    (snapshot) => {
+      if (snapshot.empty) {
+        onData(defaultProducts, false);
+        return;
+      }
+      const products: Product[] = [];
+      snapshot.forEach((d) => {
+        products.push({ id: d.id, ...d.data() } as Product);
+      });
+      onData(sortProducts(products), true);
+    },
+    (error) => {
+      console.warn("Firestore products subscription error:", error);
+      onData(defaultProducts, false);
+      if (onError) onError(error);
+    }
+  );
 }
 
 export async function saveProduct(product: Partial<Product>, customId?: string): Promise<string> {
@@ -61,8 +103,7 @@ export async function deleteProduct(id: string): Promise<void> {
 export async function getBlogs(): Promise<BlogPost[]> {
   if (!db) return defaultBlogs;
   try {
-    const q = query(collection(db, BLOGS_COLLECTION), orderBy("createdAt", "desc"));
-    const snapshot = await getDocs(q);
+    const snapshot = await getDocs(collection(db, BLOGS_COLLECTION));
     if (snapshot.empty) {
       return defaultBlogs;
     }
@@ -70,11 +111,41 @@ export async function getBlogs(): Promise<BlogPost[]> {
     snapshot.forEach((d) => {
       blogs.push({ id: d.id, ...d.data() } as BlogPost);
     });
-    return blogs;
+    return sortBlogs(blogs);
   } catch (error) {
     console.warn("Failed to fetch blogs from Firestore, using fallback defaults:", error);
     return defaultBlogs;
   }
+}
+
+export function subscribeToBlogs(
+  onData: (blogs: BlogPost[], isLive: boolean) => void,
+  onError?: (err: Error) => void
+): Unsubscribe {
+  if (!db) {
+    onData(defaultBlogs, false);
+    return () => {};
+  }
+
+  return onSnapshot(
+    collection(db, BLOGS_COLLECTION),
+    (snapshot) => {
+      if (snapshot.empty) {
+        onData(defaultBlogs, false);
+        return;
+      }
+      const blogs: BlogPost[] = [];
+      snapshot.forEach((d) => {
+        blogs.push({ id: d.id, ...d.data() } as BlogPost);
+      });
+      onData(sortBlogs(blogs), true);
+    },
+    (error) => {
+      console.warn("Firestore blogs subscription error:", error);
+      onData(defaultBlogs, false);
+      if (onError) onError(error);
+    }
+  );
 }
 
 export async function saveBlog(blog: Partial<BlogPost>, customId?: string): Promise<string> {
@@ -122,4 +193,3 @@ export async function seedInitialData(): Promise<{ productsCount: number; blogsC
   }
   return { productsCount: defaultProducts.length, blogsCount: defaultBlogs.length };
 }
-
