@@ -23,10 +23,8 @@ export default function Template({ children }: { children: React.ReactNode }) {
         const currIndex = routeOrder[pathname] ?? 0;
 
         if (currIndex > prevIndex) {
-          // Moving rightwards in navbar -> new page slides in from right to left
           setTransitionClass("animate-slide-from-right");
         } else if (currIndex < prevIndex) {
-          // Moving leftwards in navbar -> new page slides in from left to right
           setTransitionClass("animate-slide-from-left");
         } else {
           setTransitionClass("animate-page-fade");

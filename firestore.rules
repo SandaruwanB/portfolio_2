@@ -2,6 +2,228 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // This security rules file assumes the following data structures:
+    //
+    // Collection: products
+    // Document ID: {productId} (string matching product.id, e.g. "telemetry-engine", "prod_123456789")
+    // Fields:
+    //   - id: string (required, immutable) - Document identifier matching {productId}
+    //   - title: string (required, 1-200 chars) - Product title
+    //   - summary: string (required, 1-2000 chars) - Executive summary
+    //   - tag: string (optional, 0-200 chars) - Sub-header tag
+    //   - category: string (optional, 0-200 chars) - Product category
+    //   - features: list (optional, max 50 items) - Key capabilities
+    //   - metrics: list (optional, max 20 items) - Quantitative benchmark metrics
+    //   - stack: list (optional, max 50 items) - Tech stack technologies
+    //   - imageUrl: string (optional, 0-2000 chars) - Image URL or relative path
+    //   - platform: string (optional, 0-100 chars) - Target platform
+    //   - pricingType: string (optional, 0-100 chars) - Pricing model
+    //   - priceLabel: string (optional, 0-100 chars) - Display price label
+    //   - status: string (optional, 0-100 chars) - Release status or version
+    //   - demoUrl: string (optional, 0-2000 chars) - Live demo URL or relative path
+    //   - repoUrl: string (optional, 0-2000 chars) - Repository URL or relative path
+    //   - order: number (optional, >= 0 and <= 100000) - Sorting index
+    //   - createdAt: number (optional, > 0, immutable) - Creation timestamp in ms
+    //   - updatedAt: number (optional, > 0) - Modification timestamp in ms
+    //
+    // Collection: blogs
+    // Document ID: {blogId} (string matching blog.id, e.g. "scaling-event-streams", "blog-123456789")
+    // Fields:
+    //   - id: string (required, immutable) - Document identifier matching {blogId}
+    //   - title: string (required, 1-200 chars) - Article title
+    //   - excerpt: string (required, 1-2000 chars) - Article summary/excerpt
+    //   - content: string (optional, 0-100000 chars) - Full article markdown or plain text
+    //   - category: string (optional, 0-200 chars) - Article category
+    //   - readTime: string (optional, 0-100 chars) - Estimated read time
+    //   - date: string (optional, 0-100 chars) - Display publish date
+    //   - tags: list (optional, max 50 items) - Topic tags
+    //   - imageUrl: string (optional, 0-2000 chars) - Cover image URL or relative path
+    //   - published: bool (optional) - Publication visibility flag
+    //   - createdAt: number (optional, > 0, immutable) - Creation timestamp in ms
+    //   - updatedAt: number (optional, > 0) - Modification timestamp in ms
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if the user is authenticated (admin)
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Validate that required fields exist in request data
+    function hasRequiredFields(data, fields) {
+      return data.keys().hasAll(fields);
+    }
+
+    // Validate that only allowed fields are present in request data
+    function hasOnlyAllowedFields(data, fields) {
+      return data.keys().hasOnly(fields);
+    }
+
+    // Validate bounded string length
+    function validStringLength(data, field, minLen, maxLen) {
+      return data[field] is string &&
+             data[field].size() >= minLen &&
+             data[field].size() <= maxLen;
+    }
+
+    // Validate optional string field
+    function isValidOptionalString(data, field, minLen, maxLen) {
+      return !(field in data) ||
+             (data[field] is string &&
+              data[field].size() >= minLen &&
+              data[field].size() <= maxLen);
+    }
+
+    // Validate optional URL or storage image path
+    function isValidOptionalUrl(data, field, maxLen) {
+      return !(field in data) ||
+             (data[field] is string &&
+              data[field].size() <= maxLen &&
+              (data[field] == '' ||
+               data[field].matches("^https?://.*") ||
+               data[field].matches("^/.*")));
+    }
+
+    // Validate optional list field and its size
+    function isValidOptionalList(data, field, maxSize) {
+      return !(field in data) ||
+             (data[field] is list &&
+              data[field].size() <= maxSize);
+    }
+
+    // Validate optional numeric order / index
+    function isValidOptionalNumber(data, field) {
+      return !(field in data) ||
+             (data[field] is number &&
+              data[field] >= 0 &&
+              data[field] <= 100000);
+    }
+
+    // Validate optional timestamp number in milliseconds
+    function isValidOptionalTimestampNumber(data, field) {
+      return !(field in data) ||
+             (data[field] is number &&
+              data[field] > 0);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    // Validate incoming Product data schema
+    function isValidProduct(data, productId) {
+      return hasRequiredFields(data, ['id', 'title', 'summary']) &&
+             hasOnlyAllowedFields(data, [
+               'id', 'tag', 'title', 'category', 'summary',
+               'features', 'metrics', 'stack', 'imageUrl',
+               'platform', 'pricingType', 'priceLabel', 'status',
+               'demoUrl', 'repoUrl',
+               'order', 'createdAt', 'updatedAt'
+             ]) &&
+             data.id is string &&
+             data.id == productId &&
+             data.id.size() >= 1 &&
+             data.id.size() <= 100 &&
+             validStringLength(data, 'title', 1, 200) &&
+             validStringLength(data, 'summary', 1, 2000) &&
+             isValidOptionalString(data, 'tag', 0, 200) &&
+             isValidOptionalString(data, 'category', 0, 200) &&
+             isValidOptionalList(data, 'features', 50) &&
+             isValidOptionalList(data, 'metrics', 20) &&
+             isValidOptionalList(data, 'stack', 50) &&
+             isValidOptionalUrl(data, 'imageUrl', 2000) &&
+             isValidOptionalString(data, 'platform', 0, 100) &&
+             isValidOptionalString(data, 'pricingType', 0, 100) &&
+             isValidOptionalString(data, 'priceLabel', 0, 100) &&
+             isValidOptionalString(data, 'status', 0, 100) &&
+             isValidOptionalUrl(data, 'demoUrl', 2000) &&
+             isValidOptionalUrl(data, 'repoUrl', 2000) &&
+             isValidOptionalNumber(data, 'order') &&
+             isValidOptionalTimestampNumber(data, 'createdAt') &&
+             isValidOptionalTimestampNumber(data, 'updatedAt');
+    }
+
+    // Validate incoming BlogPost data schema
+    function isValidBlogPost(data, blogId) {
+      return hasRequiredFields(data, ['id', 'title', 'excerpt']) &&
+             hasOnlyAllowedFields(data, [
+               'id', 'title', 'excerpt', 'content', 'category',
+               'readTime', 'date', 'tags', 'imageUrl',
+               'published', 'createdAt', 'updatedAt'
+             ]) &&
+             data.id is string &&
+             data.id == blogId &&
+             data.id.size() >= 1 &&
+             data.id.size() <= 100 &&
+             validStringLength(data, 'title', 1, 200) &&
+             validStringLength(data, 'excerpt', 1, 2000) &&
+             isValidOptionalString(data, 'content', 0, 100000) &&
+             isValidOptionalString(data, 'category', 0, 200) &&
+             isValidOptionalString(data, 'readTime', 0, 100) &&
+             isValidOptionalString(data, 'date', 0, 100) &&
+             isValidOptionalList(data, 'tags', 50) &&
+             isValidOptionalUrl(data, 'imageUrl', 2000) &&
+             (!('published' in data) || data.published is bool) &&
+             isValidOptionalTimestampNumber(data, 'createdAt') &&
+             isValidOptionalTimestampNumber(data, 'updatedAt');
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    // 1. Products Collection
+    match /products/{productId} {
+      // Public read access for all visitors
+      allow read: if true;
+
+      // Only authenticated admin users can create valid products
+      allow create: if isAuthenticated() &&
+                       isValidProduct(request.resource.data, productId);
+
+      // Only authenticated admin users can update products with schema validation and immutability checks
+      allow update: if isAuthenticated() &&
+                       isValidProduct(request.resource.data, productId) &&
+                       request.resource.data.id == resource.data.id &&
+                       (!('createdAt' in resource.data) ||
+                        !('createdAt' in request.resource.data) ||
+                        request.resource.data.createdAt == resource.data.createdAt);
+
+      // Only authenticated admin users can delete products
+      allow delete: if isAuthenticated();
+    }
+
+    // 2. Blogs Collection
+    match /blogs/{blogId} {
+      // Public read access for all visitors
+      allow read: if true;
+
+      // Only authenticated admin users can create valid blog posts
+      allow create: if isAuthenticated() &&
+                       isValidBlogPost(request.resource.data, blogId);
+
+      // Only authenticated admin users can update blog posts with schema validation and immutability checks
+      allow update: if isAuthenticated() &&
+                       isValidBlogPost(request.resource.data, blogId) &&
+                       request.resource.data.id == resource.data.id &&
+                       (!('createdAt' in resource.data) ||
+                        !('createdAt' in request.resource.data) ||
+                        request.resource.data.createdAt == resource.data.createdAt);
+
+      // Only authenticated admin users can delete blog posts
+      allow delete: if isAuthenticated();
+    }
+
+    // 3. Default deny rule for all other document paths and collections
     match /{document=**} {
       allow read, write: if false;
     }

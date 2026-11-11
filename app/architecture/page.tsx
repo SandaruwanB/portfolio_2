@@ -93,8 +93,6 @@ export default function ArchitecturePage() {
 
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          
-          {/* Page Heading */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
             <div>
               <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
@@ -108,7 +106,6 @@ export default function ArchitecturePage() {
               </p>
             </div>
 
-            {/* Quick Switcher */}
             <div className="flex items-center gap-1.5 p-1 bg-zinc-200/80 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl">
               {caseStudies.map((study, idx) => (
                 <button
@@ -126,10 +123,8 @@ export default function ArchitecturePage() {
             </div>
           </div>
 
-          {/* Active Study Box */}
           <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-6 sm:p-8 lg:p-10 shadow-xs">
-            
-            {/* Top metadata */}
+
             <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-zinc-100 dark:border-zinc-800/80">
               <span className="font-mono text-xs text-emerald-600 dark:text-emerald-400 font-medium">
                 {activeCase.tag}
@@ -139,7 +134,6 @@ export default function ArchitecturePage() {
               </span>
             </div>
 
-            {/* Title & Summary */}
             <div className="py-6">
               <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-3">
                 {activeCase.title}
@@ -148,8 +142,6 @@ export default function ArchitecturePage() {
                 {activeCase.summary}
               </p>
             </div>
-
-            {/* Problem vs Solution Split */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 py-6 border-y border-zinc-100 dark:border-zinc-800/80">
               <div className="space-y-2">
                 <div className="text-xs font-mono text-rose-600 dark:text-rose-400 uppercase tracking-wider">
@@ -170,7 +162,6 @@ export default function ArchitecturePage() {
               </div>
             </div>
 
-            {/* Architectural Highlights */}
             <div className="py-6">
               <div className="text-xs font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-4">
                 KEY ARCHITECTURAL DECISIONS
@@ -185,7 +176,6 @@ export default function ArchitecturePage() {
               </div>
             </div>
 
-            {/* Metrics & Stack */}
             <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800/80 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
               <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {activeCase.metrics.map((m, i) => (
