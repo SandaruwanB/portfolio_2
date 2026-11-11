@@ -1,107 +1,37 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
 import { ArrowRight } from "../components/Icons";
 import ScrollReveal from "../components/ScrollReveal";
-
-interface Product {
-  id: string;
-  tag: string;
-  title: string;
-  category: string;
-  summary: string;
-  features: string[];
-  metrics: { label: string; value: string }[];
-  stack: string[];
-}
-
-const products: Product[] = [
-  {
-    id: "telemetry-engine",
-    tag: "PRODUCT 01 // TELEMETRY & EDGE",
-    title: "IoT Edge Telemetry & Ingestion Platform",
-    category: "Hardware-to-Cloud & Distributed Streams",
-    summary:
-      "A high-throughput distributed ingestion engine designed to process massive parallel streams of IoT sensor data with sub-15ms P99 latency and zero packet loss.",
-    features: [
-      "Lightweight MQTT edge broker interfacing and bi-directional device command streams",
-      "Asynchronous non-blocking workers streaming directly to partitioned Apache Kafka topics",
-      "In-memory Redis state caching for sub-5ms device validation and heartbeat tracking",
-      "Automated dead-letter queue (DLQ) replay and graceful backpressure under traffic spikes",
-    ],
-    metrics: [
-      { label: "Throughput", value: "50,000+ msg/s" },
-      { label: "P99 Latency", value: "<15ms" },
-      { label: "Data Drop", value: "0.00%" },
-    ],
-    stack: ["Java", "Vert.x", "Kafka", "Redis", "PostgreSQL", "MQTT", "Docker"],
-  },
-  {
-    id: "erp-core",
-    tag: "PRODUCT 02 // ENTERPRISE ERP",
-    title: "Modular Enterprise ERP & Automation Core",
-    category: "Business Operations & Odoo Architecture",
-    summary:
-      "A decoupled, modular ERP platform built on top of customized Odoo architecture and distributed microservices to automate multi-branch inventory, manufacturing billing, and operations.",
-    features: [
-      "Custom Odoo ERP modular addons with strict bounded contexts and clean API contracts",
-      "Transactional Outbox pattern for reliable cross-system master data synchronization",
-      "Automated multi-department approval flows (Procurement, Inventory, Invoicing)",
-      "Elimination of database lock contention during concurrent peak branch operations",
-    ],
-    metrics: [
-      { label: "Cycle Time", value: "-62%" },
-      { label: "Active Scale", value: "1,200+ Users" },
-      { label: "DB Locks", value: "Near Zero" },
-    ],
-    stack: ["Odoo ERP", "Python", "Node.js", "PostgreSQL", "RabbitMQ", "REST APIs"],
-  },
-  {
-    id: "transaction-engine",
-    tag: "PRODUCT 03 // FAULT-TOLERANCE",
-    title: "Distributed Transaction & Ledger Engine",
-    category: "Financial & High Concurrency",
-    summary:
-      "A resilient transactional ledger engine enforcing strict ACID guarantees, idempotency, and automated compensation across distributed microservice nodes.",
-    features: [
-      "Orchestrated Saga workflow ensuring eventual consistency across decoupled microservices",
-      "Cryptographic idempotency token hashing preventing double-charges under network retries",
-      "Append-only double-entry ledger architecture for complete tamper-evident auditability",
-      "Automated circuit breakers and multi-region active-active read replicas with write sharding",
-    ],
-    metrics: [
-      { label: "Availability", value: "99.995%" },
-      { label: "Consistency", value: "100% ACID" },
-      { label: "Recovery Time", value: "<30 sec" },
-    ],
-    stack: ["Java (Spring Boot)", "TypeScript", "Kafka", "PostgreSQL", "Docker", "Prometheus"],
-  },
-  {
-    id: "workflow-automator",
-    tag: "PRODUCT 04 // PROCESS AUTOMATION",
-    title: "Business Process Automation & Integration Hub",
-    category: "Enterprise Solutions & Integration",
-    summary:
-      "A centralized integration middleware that unifies fragmented legacy systems, third-party APIs, and modern cloud backends into cohesive automated business workflows.",
-    features: [
-      "Event-driven workflow execution eliminating manual spreadsheet and data-entry loops",
-      "Extensible plugin architecture enabling fast integration of third-party SaaS and payment gateways",
-      "Real-time operational dashboard and audit logging for business stakeholders",
-      "Role-based access control (RBAC) and enterprise security governance benchmarks",
-    ],
-    metrics: [
-      { label: "Efficiency", value: "+75%" },
-      { label: "Human Error", value: "Eliminated" },
-      { label: "Integration", value: "Plug & Play" },
-    ],
-    stack: ["Node.js", "TypeScript", "Redis", "PostgreSQL", "Docker", "REST / gRPC"],
-  },
-];
+import { Product } from "../lib/types";
+import { defaultProducts } from "../lib/defaultData";
+import { getProducts } from "../lib/firestoreService";
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>(defaultProducts);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadLiveProducts() {
+      try {
+        const liveProducts = await getProducts();
+        if (isMounted && liveProducts && liveProducts.length > 0) {
+          setProducts(liveProducts);
+        }
+      } catch (err) {
+        console.warn("Could not load products from Firestore, using defaults:", err);
+      }
+    }
+    loadLiveProducts();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 flex flex-col">
       <Navbar />
@@ -119,6 +49,7 @@ export default function ProductsPage() {
               Production-grade systems, modular ERP platforms, and distributed telemetry architectures designed to scale reliably under load.
             </p>
           </div>
+          
           <div className="space-y-6">
             {products.map((product, idx) => (
               <ScrollReveal key={product.id} delay={idx * 100}>
@@ -142,12 +73,23 @@ export default function ProductsPage() {
                       {product.summary}
                     </p>
 
+                    {product.imageUrl && (
+                      <div className="relative w-full h-48 sm:h-64 rounded-xl overflow-hidden mb-5 border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
+                        <Image
+                          src={product.imageUrl}
+                          alt={product.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+
                     <div className="space-y-2 mb-6">
                       <div className="text-[11px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2">
                         Key Capabilities:
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        {product.features.map((feature, i) => (
+                        {product.features?.map((feature, i) => (
                           <div key={i} className="flex items-start gap-2 text-xs text-zinc-700 dark:text-zinc-300">
                             <span className="text-emerald-500 font-mono mt-0.5">›</span>
                             <span>{feature}</span>
@@ -159,7 +101,7 @@ export default function ProductsPage() {
 
                   <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
                     <div className="md:col-span-8 flex flex-wrap gap-4">
-                      {product.metrics.map((m, mIdx) => (
+                      {product.metrics?.map((m, mIdx) => (
                         <div key={mIdx} className="p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800">
                           <div className="text-[10px] font-mono text-zinc-500">{m.label}</div>
                           <div className="text-sm font-bold font-mono text-zinc-900 dark:text-white">{m.value}</div>
@@ -199,4 +141,3 @@ export default function ProductsPage() {
     </div>
   );
 }
-

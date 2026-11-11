@@ -1,66 +1,37 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
 import { ArrowRight } from "../components/Icons";
 import ScrollReveal from "../components/ScrollReveal";
-
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  readTime: string;
-  date: string;
-  tags: string[];
-}
-
-const posts: BlogPost[] = [
-  {
-    id: "scaling-event-streams",
-    title: "Deconstructing Distributed Bottlenecks: Scaling Event Streams to 50,000+ msg/sec",
-    excerpt:
-      "A deep dive into diagnosing thread pool starvation, Kafka partition keying strategies, non-blocking I/O workers, and eliminating database write bottlenecks under extreme traffic bursts.",
-    category: "Distributed Systems",
-    readTime: "7 min read",
-    date: "November 2026",
-    tags: ["Distributed Systems", "Kafka", "Java", "High Throughput"],
-  },
-  {
-    id: "modular-odoo-migration",
-    title: "Decoupling the Enterprise Monolith: Migrating Core Logic to Modular Odoo & Microservices",
-    excerpt:
-      "How to transition legacy monolithic business databases into decoupled, bounded domains using custom Odoo modular plugins and the Transactional Outbox pattern without operational downtime.",
-    category: "Enterprise Architecture",
-    readTime: "9 min read",
-    date: "October 2026",
-    tags: ["Odoo ERP", "DDD", "Enterprise", "Architecture"],
-  },
-  {
-    id: "distributed-sagas-idempotency",
-    title: "Zero-Downtime Financial Consistency: Sagas, Idempotency Tokens, and Eventual Consistency",
-    excerpt:
-      "Why distributed lock managers destroy backend throughput, and how implementing orchestrated Sagas with cryptographic idempotency tokens guarantees 100% reconciliation accuracy.",
-    category: "System Reliability",
-    readTime: "6 min read",
-    date: "September 2026",
-    tags: ["Fintech", "ACID", "Microservices", "Reliability"],
-  },
-  {
-    id: "edge-to-cloud-iot",
-    title: "From Edge to Cloud: Architecting Resilient IoT Telemetry Streams with MQTT & Redis",
-    excerpt:
-      "Overcoming unreliable hardware connectivity and network latency. Designing store-and-forward edge gateways, lightweight MQTT QoS choreography, and in-memory time-series validation.",
-    category: "IoT & Hardware",
-    readTime: "8 min read",
-    date: "August 2026",
-    tags: ["IoT", "Edge Computing", "MQTT", "Redis"],
-  },
-];
+import { BlogPost } from "../lib/types";
+import { defaultBlogs } from "../lib/defaultData";
+import { getBlogs } from "../lib/firestoreService";
 
 export default function BlogPage() {
+  const [posts, setPosts] = useState<BlogPost[]>(defaultBlogs);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadLiveBlogs() {
+      try {
+        const liveBlogs = await getBlogs();
+        if (isMounted && liveBlogs && liveBlogs.length > 0) {
+          setPosts(liveBlogs);
+        }
+      } catch (err) {
+        console.warn("Could not load blogs from Firestore, using defaults:", err);
+      }
+    }
+    loadLiveBlogs();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 flex flex-col">
       <Navbar />
@@ -78,6 +49,7 @@ export default function BlogPage() {
               In-depth technical reflections on distributed systems, enterprise decoupling, ERP performance engineering, and high-throughput reliability.
             </p>
           </div>
+
           <div className="space-y-6">
             {posts.map((post, idx) => (
               <ScrollReveal key={post.id} delay={idx * 100}>
@@ -105,9 +77,20 @@ export default function BlogPage() {
                     {post.excerpt}
                   </p>
 
+                  {post.imageUrl && (
+                    <div className="relative w-full h-48 sm:h-64 rounded-xl overflow-hidden mb-5 border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
+                      <Image
+                        src={post.imageUrl}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
+
                   <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800">
                     <div className="flex flex-wrap gap-1.5">
-                      {post.tags.map((tag) => (
+                      {post.tags?.map((tag) => (
                         <span
                           key={tag}
                           className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded"
@@ -147,4 +130,3 @@ export default function BlogPage() {
     </div>
   );
 }
-
