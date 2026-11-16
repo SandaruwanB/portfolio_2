@@ -16,7 +16,7 @@ export default function Footer() {
           </div>
           <span className="hidden sm:inline text-zinc-300 dark:text-zinc-700">•</span>
           <div suppressHydrationWarning className="text-zinc-500 text-[11px]">
-            © {new Date().getFullYear()} • High-Throughput & Fault-Tolerant Systems
+            © {new Date().getFullYear()} Sandaruwan Bandara • Built with Next.js & Tailwind CSS
           </div>
         </div>
 

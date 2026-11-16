@@ -7,7 +7,7 @@ import Link from "next/link";
 const caseStudies = [
   {
     id: "telemetry",
-    tag: "CASE 01 // TELEMETRY & DISTRIBUTED INGESTION",
+    tag: "Case Study • IoT & Ingestion",
     title: "High-Throughput IoT Edge Telemetry & Ingestion Pipeline",
     domain: "IoT, Edge & Distributed Systems",
     summary:
@@ -32,7 +32,7 @@ const caseStudies = [
   },
   {
     id: "erp",
-    tag: "CASE 02 // ENTERPRISE ARCHITECTURE",
+    tag: "Case Study • Enterprise ERP",
     title: "Modular Enterprise ERP & Business Process Modernization",
     domain: "Enterprise ERP & Automation",
     summary:
@@ -57,7 +57,7 @@ const caseStudies = [
   },
   {
     id: "transaction",
-    tag: "CASE 03 // RELIABILITY & FAULT-TOLERANCE",
+    tag: "Case Study • Distributed Transactions",
     title: "Fault-Tolerant Distributed Transaction & Ledger Engine",
     domain: "Financial & High Concurrency",
     summary:
@@ -87,13 +87,14 @@ export default function ArchitecturePage() {
   const activeCase = caseStudies.find((c) => c.id === activeCaseId) || caseStudies[0];
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 flex flex-col">
+    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#0A0A0A] dark:text-zinc-100 flex flex-col">
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
             <div>
-              <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
-                SYSTEM DESIGN ARCHIVE
+              <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span>Deep Dives</span>
               </div>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
                 Architecture Case Studies

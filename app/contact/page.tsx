@@ -10,16 +10,17 @@ export default function ContactPage() {
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [topic, setTopic] = useState("Distributed Systems Architecture");
+  const [topic, setTopic] = useState("Business Workflow Analysis & Tech Strategy");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const topics = [
-    "Distributed Systems Architecture",
-    "Enterprise ERP & Odoo Modernization",
-    "Performance & Database Bottleneck Audit",
-    "Strategic Tech Advisory / Mentorship",
-    "Other Engineering Consultation",
+    "Business Workflow Analysis & Tech Strategy",
+    "IoT & Operational Automation",
+    "Enterprise ERP & Odoo Architecture",
+    "Distributed Systems & Backend Scaling",
+    "Database & Performance Bottleneck Audit",
+    "General Technology Consultation",
   ];
 
   const handleCopyEmail = () => {
@@ -48,14 +49,15 @@ export default function ContactPage() {
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mb-12">
-            <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
-              INITIATE ENGAGEMENT
+            <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span>Get in Touch</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
-              Let&apos;s Discuss Architecture & Scalability
+              Let&apos;s build something great together
             </h1>
             <p className="mt-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              Whether you are planning an enterprise architecture overhaul, resolving distributed bottlenecks, or seeking strategic technical guidance for your business, reach out directly.
+              Have an upcoming project, need an architectural review, or want to discuss backend performance? Drop me a message below or reach out directly.
             </p>
           </div>
 
@@ -63,11 +65,11 @@ export default function ContactPage() {
             <div className="lg:col-span-5 space-y-4">
               <ScrollReveal direction="up">
                 <div className="p-6 rounded-2xl bg-white/80 dark:bg-zinc-900/40 backdrop-blur-xs border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-4">
-                  <h2 className="text-base font-semibold text-zinc-900 dark:text-white">Direct Communication</h2>
+                  <h2 className="text-base font-semibold text-zinc-900 dark:text-white">Contact Details</h2>
                 
                 <div className="space-y-3 font-mono text-xs">
                   <div>
-                    <div className="text-[11px] text-zinc-400 dark:text-zinc-500 mb-1">DIRECT EMAIL</div>
+                    <div className="text-[11px] text-zinc-400 dark:text-zinc-500 mb-1">EMAIL</div>
                     <div className="flex items-center justify-between p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800">
                       <div className="flex items-center gap-2 min-w-0">
                         <Mail className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
@@ -93,7 +95,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <div className="text-[11px] text-zinc-400 dark:text-zinc-500 mb-1">DIRECT WHATSAPP</div>
+                    <div className="text-[11px] text-zinc-400 dark:text-zinc-500 mb-1">WHATSAPP / PHONE</div>
                     <div className="flex items-center justify-between p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800">
                       <div className="flex items-center gap-2 min-w-0">
                         <WhatsApp className="w-3.5 h-3.5 text-[#25D366] shrink-0" />
@@ -131,7 +133,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="pt-2">
-                    <div className="text-[11px] text-zinc-400 dark:text-zinc-500 mb-1">PROFESSIONAL NETWORKS</div>
+                    <div className="text-[11px] text-zinc-400 dark:text-zinc-500 mb-1">PROFILES</div>
                     <div className="space-y-2">
                       <a
                         href="https://linkedin.com/in/sandaruwan-bandara"

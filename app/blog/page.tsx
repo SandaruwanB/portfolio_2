@@ -30,18 +30,19 @@ export default function BlogPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 flex flex-col">
+    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#0A0A0A] dark:text-zinc-100 flex flex-col">
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mb-12">
-            <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
-              ENGINEERING INSIGHTS & ESSAYS
+            <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span>Writings & Notes</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
-              Systems Architecture Blog
+              Articles & Architecture Notes
             </h1>
             <p className="mt-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              In-depth technical reflections on distributed systems, enterprise decoupling, ERP performance engineering, and high-throughput reliability.
+              Practical notes, architectural blueprints, and lessons learned from engineering distributed systems and enterprise ERP backends.
             </p>
           </div>
 

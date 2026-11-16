@@ -224,19 +224,20 @@ export default function ProductsPage() {
   const visibleTags = showAllTags ? tagCounts : tagCounts.slice(0, 10);
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 flex flex-col">
+    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#0A0A0A] dark:text-zinc-100 flex flex-col">
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* HEADER */}
           <div className="max-w-3xl mb-10" ref={catalogTopRef}>
-            <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
-              SOLUTIONS & PLATFORMS
+            <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span>Systems & Platforms</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
-              Enterprise Products & Architectures
+              Products & Architectural Solutions
             </h1>
             <p className="mt-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              Production-grade systems, web & mobile applications, modular ERP platforms, and open-source tools engineered for scale.
+              Production-grade backends, modular ERP systems, developer utilities, and applications I&apos;ve designed and built.
             </p>
           </div>
 
@@ -542,7 +543,7 @@ export default function ProductsPage() {
                         >
                           <div>
                             {bannerImg && (
-                              <div className="relative w-full h-44 sm:h-52 overflow-hidden bg-[#08090d] border-b border-zinc-200 dark:border-zinc-800">
+                              <div className="relative w-full h-44 sm:h-52 overflow-hidden bg-[#0A0A0A] border-b border-zinc-200 dark:border-zinc-800">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                   src={bannerImg}
@@ -650,7 +651,7 @@ export default function ProductsPage() {
                                 href="/contact"
                                 className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 hover:opacity-90 transition-opacity"
                               >
-                                <span>{product.pricingType === "Paid" ? "Acquire / Inquire" : "Inquire / Implementation"}</span>
+                                <span>{product.pricingType === "Paid" ? "Inquire / Licensing" : "Inquire / Custom Setup"}</span>
                                 <ArrowRight className="w-3.5 h-3.5" />
                               </Link>
 

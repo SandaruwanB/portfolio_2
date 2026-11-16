@@ -274,7 +274,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-[#08090d] text-zinc-900 dark:text-zinc-100 flex items-center justify-center font-mono text-xs">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#0A0A0A] text-zinc-900 dark:text-zinc-100 flex items-center justify-center font-mono text-xs">
         Initializing Administrative Boundary...
       </div>
     );
@@ -283,7 +283,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
   // Not authenticated screen
   if (!user) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-[#08090d] text-zinc-900 dark:text-zinc-100 flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#0A0A0A] text-zinc-900 dark:text-zinc-100 flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-md space-y-6">
           <div className="text-center space-y-2">
             <Link
@@ -370,7 +370,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
 
   // Authenticated Admin Dashboard
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#08090d] text-zinc-900 dark:text-zinc-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#0A0A0A] text-zinc-900 dark:text-zinc-100 flex flex-col font-sans">
       {/* Top Bar */}
       <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 backdrop-blur-md sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-3">
