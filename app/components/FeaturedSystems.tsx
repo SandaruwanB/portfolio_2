@@ -7,6 +7,7 @@ import ScrollReveal from "./ScrollReveal";
 import { Product } from "../lib/types";
 import { defaultProducts } from "../lib/defaultData";
 import { subscribeToProducts } from "../lib/firestoreService";
+import { normalizeImageUrl } from "../lib/imageUtils";
 
 const icons = [Cpu, Layers, ShieldCheck];
 
@@ -48,7 +49,7 @@ export default function FeaturedSystems() {
             const Icon = icons[idx % icons.length];
             const firstMetric = item.metrics?.[0];
             const highlightText = firstMetric ? `${firstMetric.label}: ${firstMetric.value}` : item.tag;
-            const bannerImg = item.imageUrl || defaultProducts.find((d) => d.id === item.id)?.imageUrl;
+            const bannerImg = normalizeImageUrl(item.imageUrl || defaultProducts.find((d) => d.id === item.id)?.imageUrl);
 
             return (
               <ScrollReveal key={item.id} delay={idx * 120} className="h-full">

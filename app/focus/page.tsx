@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
 
@@ -63,8 +62,6 @@ const pillars = [
 export default function FocusPage() {
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 flex flex-col">
-      <Navbar />
-
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
 

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
 import { ArrowRight, X } from "../components/Icons";
@@ -9,6 +8,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import { BlogPost } from "../lib/types";
 import { defaultBlogs } from "../lib/defaultData";
 import { subscribeToBlogs } from "../lib/firestoreService";
+import { normalizeImageUrl } from "../lib/imageUtils";
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>(defaultBlogs);
@@ -31,8 +31,6 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 flex flex-col">
-      <Navbar />
-
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mb-12">
@@ -88,7 +86,7 @@ export default function BlogPage() {
                       <div className="relative w-full overflow-hidden rounded-xl mb-5 border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={post.imageUrl}
+                          src={normalizeImageUrl(post.imageUrl)}
                           alt={post.title}
                           className="w-full max-h-[340px] object-cover"
                         />
@@ -170,7 +168,7 @@ export default function BlogPage() {
               <div className="relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={selectedPost.imageUrl}
+                  src={normalizeImageUrl(selectedPost.imageUrl)}
                   alt={selectedPost.title}
                   className="w-full max-h-[400px] object-cover"
                 />

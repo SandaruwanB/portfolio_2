@@ -12,35 +12,33 @@ const routeOrder: Record<string, number> = {
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [transitionClass, setTransitionClass] = useState("animate-page-fade");
+  const [transitionClass] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const prevPath = sessionStorage.getItem("prev_route_path");
+        if (prevPath && prevPath !== pathname) {
+          const prevIndex = routeOrder[prevPath] ?? 0;
+          const currIndex = routeOrder[pathname] ?? 0;
+          if (currIndex > prevIndex) return "animate-slide-from-right";
+          if (currIndex < prevIndex) return "animate-slide-from-left";
+        }
+      } catch {
+        // fallback to fade
+      }
+    }
+    return "animate-page-fade";
+  });
 
   useEffect(() => {
     try {
-      const prevPath = sessionStorage.getItem("prev_route_path");
-      
-      if (prevPath && prevPath !== pathname) {
-        const prevIndex = routeOrder[prevPath] ?? 0;
-        const currIndex = routeOrder[pathname] ?? 0;
-
-        if (currIndex > prevIndex) {
-          setTransitionClass("animate-slide-from-right");
-        } else if (currIndex < prevIndex) {
-          setTransitionClass("animate-slide-from-left");
-        } else {
-          setTransitionClass("animate-page-fade");
-        }
-      } else {
-        setTransitionClass("animate-page-fade");
-      }
-
       sessionStorage.setItem("prev_route_path", pathname);
     } catch {
-      setTransitionClass("animate-page-fade");
+      // ignore
     }
   }, [pathname]);
 
   return (
-    <div key={pathname} className={`${transitionClass} w-full overflow-x-hidden min-h-screen`}>
+    <div className={`${transitionClass} w-full overflow-x-hidden min-h-screen`}>
       {children}
     </div>
   );

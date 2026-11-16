@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Copy, Check, LinkedIn, GitHub, WhatsApp, ArrowUpRight, Send, Mail } from "../components/Icons";
 import ScrollReveal from "../components/ScrollReveal";
@@ -46,8 +45,6 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 flex flex-col">
-      <Navbar />
-
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mb-12">
