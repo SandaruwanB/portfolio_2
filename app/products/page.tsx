@@ -542,7 +542,10 @@ export default function ProductsPage() {
                         >
                           <div>
                             {bannerImg && (
-                              <div className="relative w-full h-44 sm:h-52 overflow-hidden bg-[#0A0A0A] border-b border-zinc-200 dark:border-zinc-800">
+                              <Link
+                                href={`/products/${product.id}`}
+                                className="block relative w-full h-44 sm:h-52 overflow-hidden bg-[#0A0A0A] border-b border-zinc-200 dark:border-zinc-800"
+                              >
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                   src={bannerImg}
@@ -558,7 +561,7 @@ export default function ProductsPage() {
                                     {product.platform}
                                   </span>
                                 </div>
-                              </div>
+                              </Link>
                             )}
 
                             <div className="p-6 pb-4">
@@ -590,7 +593,12 @@ export default function ProductsPage() {
                               </div>
 
                               <h2 className="text-lg sm:text-xl font-bold text-zinc-900 dark:text-white mb-2 leading-snug">
-                                {product.title}
+                                <Link
+                                  href={`/products/${product.id}`}
+                                  className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                                >
+                                  {product.title}
+                                </Link>
                               </h2>
                               <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-5">
                                 {product.summary}
@@ -646,6 +654,14 @@ export default function ProductsPage() {
                             )}
 
                             <div className="flex flex-wrap items-center gap-2">
+                              <Link
+                                href={`/products/${product.id}`}
+                                className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors shadow-2xs"
+                              >
+                                <span>Overview</span>
+                                <ArrowRight className="w-3 h-3" />
+                              </Link>
+
                               <Link
                                 href="/contact"
                                 className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 hover:opacity-90 transition-opacity"

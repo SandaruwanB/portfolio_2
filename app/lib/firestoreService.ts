@@ -1,6 +1,7 @@
 import { 
   collection, 
   getDocs, 
+  getDoc,
   doc, 
   setDoc, 
   deleteDoc, 
@@ -98,6 +99,23 @@ export async function deleteProduct(id: string): Promise<void> {
   await deleteDoc(docRef);
 }
 
+export async function getProductById(id: string): Promise<Product | null> {
+  if (!db) {
+    return defaultProducts.find((p) => p.id === id) || null;
+  }
+  try {
+    const docRef = doc(db, PRODUCTS_COLLECTION, id);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+      return { id: snap.id, ...snap.data() } as Product;
+    }
+    return defaultProducts.find((p) => p.id === id) || null;
+  } catch (error) {
+    console.warn("Failed to fetch product by id, using fallback:", error);
+    return defaultProducts.find((p) => p.id === id) || null;
+  }
+}
+
 // ---------------------- BLOGS ----------------------
 
 export async function getBlogs(): Promise<BlogPost[]> {
@@ -166,6 +184,23 @@ export async function deleteBlog(id: string): Promise<void> {
   if (!db) throw new Error("Firebase Firestore is not configured yet.");
   const docRef = doc(db, BLOGS_COLLECTION, id);
   await deleteDoc(docRef);
+}
+
+export async function getBlogById(id: string): Promise<BlogPost | null> {
+  if (!db) {
+    return defaultBlogs.find((b) => b.id === id) || null;
+  }
+  try {
+    const docRef = doc(db, BLOGS_COLLECTION, id);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+      return { id: snap.id, ...snap.data() } as BlogPost;
+    }
+    return defaultBlogs.find((b) => b.id === id) || null;
+  } catch (error) {
+    console.warn("Failed to fetch blog by id, using fallback:", error);
+    return defaultBlogs.find((b) => b.id === id) || null;
+  }
 }
 
 // ---------------------- STORAGE (IMAGES) ----------------------

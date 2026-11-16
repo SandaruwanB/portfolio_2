@@ -8,6 +8,7 @@ export {
   Menu,
   X,
   ArrowRight,
+  ArrowLeft,
   ArrowUpRight,
   Copy,
   Check,
@@ -35,6 +36,8 @@ export {
   Search,
   BookOpen,
   Coffee,
+  Clock,
+  Tag,
 } from "lucide-react";
 
 // Standardized Brand Icons matching Lucide's 16x16 / 24x24 prop pattern
