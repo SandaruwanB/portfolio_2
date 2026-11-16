@@ -20,9 +20,9 @@ const pillars = [
   },
   {
     icon: Zap,
-    title: "Strategic Tech Advisory",
-    description: "Partnering with leadership to resolve critical engineering bottlenecks, optimize databases, and build scalable roadmaps.",
-    bullets: ["Performance & database bottleneck audits", "IoT telemetry & edge deployments", "Engineering mentorship & standards"],
+    title: "Tech Advisory & Automation",
+    description: "Analyzing business workflows to guide modernization through custom software, IoT telemetry, and smart automation.",
+    bullets: ["Workflow & bottleneck analysis", "IoT telemetry & sensor streams", "Scalable modernization roadmaps"],
   },
 ];
 
@@ -34,17 +34,17 @@ export default function CorePillars() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
             <div>
               <h2 className="text-xl font-bold text-zinc-900 dark:text-white tracking-tight">
-                Engineering Disciplines
+                What I Do
               </h2>
               <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-                Core architectural domains and high-impact technical consulting.
+                Core architectural domains, backend engineering, and technical advisory.
               </p>
             </div>
             <Link
               href="/contact"
               className="inline-flex items-center gap-1 text-xs font-medium text-zinc-900 dark:text-white hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
             >
-              <span>Request an advisory call</span>
+              <span>Discuss a project</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -74,9 +74,9 @@ export default function CorePillars() {
                     {pillar.bullets.map((bullet, bIdx) => (
                       <li
                         key={bIdx}
-                        className="text-xs text-zinc-700 dark:text-zinc-300 flex items-center gap-2 font-mono"
+                        className="text-xs text-zinc-700 dark:text-zinc-300 flex items-start gap-2 font-mono"
                       >
-                        <span className="w-1.5 h-1.5 rounded-xs bg-zinc-400 dark:bg-zinc-600" />
+                        <span className="w-1.5 h-1.5 rounded-xs bg-zinc-400 dark:bg-zinc-600 mt-1.5 shrink-0" />
                         <span>{bullet}</span>
                       </li>
                     ))}

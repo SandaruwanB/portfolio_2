@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ProjectIdxBackground from "./components/ProjectIdxBackground";
 import ScrollProgressBar from "./components/ScrollProgressBar";
+import Navbar from "./components/Navbar";
 
 export const metadata: Metadata = {
   title: "Sandaruwan Bandara — Software Architect & Principal Systems Engineer",
@@ -55,6 +56,7 @@ export default function RootLayout({
       >
         <ScrollProgressBar />
         <ProjectIdxBackground />
+        <Navbar />
         <div className="relative z-10">
           {children}
         </div>

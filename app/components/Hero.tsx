@@ -8,43 +8,42 @@ import ScrollReveal from "./ScrollReveal";
 
 export default function Hero() {
   const competencies = [
+    "Business Workflow Analysis",
+    "IoT & Automation",
     "Distributed Systems",
-    "Microservices (Java / Node)",
     "Odoo ERP & Plugins",
-    "IoT Edge & AI",
-    "C-Suite Tech Strategy",
+    "Microservices (Java / Node)",
+    "Technology Strategy",
     "High-Throughput Backends",
-    "Fault-Tolerant Architecture",
-    "Performance & DB Optimization",
+    "Performance Optimization",
   ];
 
   return (
     <section className="relative pt-20 pb-12 sm:pt-28 sm:pb-16 overflow-hidden">
-      <div className="absolute inset-0 bg-grid-pattern opacity-60 pointer-events-none" />
       <div className="absolute top-1/4 right-0 lg:right-6 w-[650px] h-[650px] bg-gradient-to-tr from-cyan-500/10 via-emerald-500/10 to-indigo-500/10 dark:from-cyan-500/15 dark:via-emerald-500/15 dark:to-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
           <div className="lg:col-span-6 xl:col-span-6 z-20">
             <ScrollReveal direction="up" className="space-y-7 sm:space-y-8 text-left">
-              <h1 className="text-3xl sm:text-4xl lg:text-[2.65rem] xl:text-[3rem] font-extrabold text-zinc-900 dark:text-white tracking-tight leading-[1.15]">
-                Architecting scalable, fault-tolerant systems.
+              <h1 className="text-3xl sm:text-4xl lg:text-[2.65rem] xl:text-[2.9rem] font-extrabold text-zinc-900 dark:text-white tracking-tight leading-[1.18]">
+                Software architect & technology consultant for modern businesses.
               </h1>
               <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-lg font-normal pt-1">
-                Principal Systems Engineer specializing in distributed backends, modular ERPs, and high-performance infrastructure. Turning complex bottlenecks into reliable systems.
+                Hi, I&apos;m Sandaruwan Bandara. I analyze business operations and provide strategic technical guidance—helping companies scale and modernize through custom software, IoT systems, and automated workflows.
               </p>
               <div className="flex flex-wrap items-center gap-3 pt-2 sm:pt-3">
                 <Link
                   href="/products"
                   className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-semibold text-white bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200 transition-colors shadow-sm"
                 >
-                  <span>Explore Products & Systems</span>
+                  <span>Explore Systems & Work</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <Link
                   href="/contact"
                   className="px-5 py-2.5 rounded-xl text-xs font-semibold text-zinc-800 dark:text-zinc-200 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 transition-colors"
                 >
-                  Initiate Consultation
+                  Get in touch
                 </Link>
               </div>
             </ScrollReveal>
@@ -82,22 +81,22 @@ export default function Hero() {
               maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
             }}
           >
-            <div className="animate-marquee flex items-center gap-3 select-none">
+            <div className="animate-marquee flex items-center gap-2.5 select-none py-1">
               {competencies.map((item, idx) => (
-                <div
+                <span
                   key={`loop-1-${idx}`}
-                  className="px-4 py-1.5 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 shadow-xs whitespace-nowrap hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors cursor-default"
+                  className="px-3.5 py-1.5 rounded-lg bg-white/90 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 text-[11px] font-mono text-zinc-700 dark:text-zinc-300 shadow-2xs whitespace-nowrap hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors cursor-default"
                 >
-                  <span>{item}</span>
-                </div>
+                  {item}
+                </span>
               ))}
               {competencies.map((item, idx) => (
-                <div
+                <span
                   key={`loop-2-${idx}`}
-                  className="px-4 py-1.5 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 shadow-xs whitespace-nowrap hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors cursor-default"
+                  className="px-3.5 py-1.5 rounded-lg bg-white/90 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 text-[11px] font-mono text-zinc-700 dark:text-zinc-300 shadow-2xs whitespace-nowrap hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors cursor-default"
                 >
-                  <span>{item}</span>
-                </div>
+                  {item}
+                </span>
               ))}
             </div>
           </div>

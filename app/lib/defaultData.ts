@@ -3,7 +3,7 @@ import { Product, BlogPost } from "./types";
 export const defaultProducts: Product[] = [
   {
     id: "telemetry-engine",
-    tag: "PRODUCT 01 // TELEMETRY & EDGE",
+    tag: "IoT & Distributed Telemetry",
     title: "IoT Edge Telemetry & Ingestion Platform",
     category: "Hardware-to-Cloud & Distributed Streams",
     summary:
@@ -30,7 +30,7 @@ export const defaultProducts: Product[] = [
   },
   {
     id: "erp-core",
-    tag: "PRODUCT 02 // ENTERPRISE ERP",
+    tag: "Enterprise ERP & Automation",
     title: "Modular Enterprise ERP & Automation Core",
     category: "Business Operations & Odoo Architecture",
     summary:
@@ -57,7 +57,7 @@ export const defaultProducts: Product[] = [
   },
   {
     id: "transaction-engine",
-    tag: "PRODUCT 03 // FAULT-TOLERANCE",
+    tag: "Distributed Financial Ledger",
     title: "Distributed Transaction & Ledger Engine",
     category: "Financial & High Concurrency",
     summary:
@@ -84,7 +84,7 @@ export const defaultProducts: Product[] = [
   },
   {
     id: "workflow-automator",
-    tag: "PRODUCT 04 // PROCESS AUTOMATION",
+    tag: "API & Process Automation",
     title: "Business Process Automation & Integration Hub",
     category: "Enterprise Solutions & Integration",
     summary:

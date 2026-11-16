@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
 import { 
@@ -23,6 +22,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import { Product } from "../lib/types";
 import { defaultProducts } from "../lib/defaultData";
 import { subscribeToProducts } from "../lib/firestoreService";
+import { normalizeImageUrl } from "../lib/imageUtils";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -80,13 +80,26 @@ export default function ProductsPage() {
     return () => unsubscribe();
   }, []);
 
+  // Smooth scroll to targeted anchor hash if navigating from Featured Systems
+  useEffect(() => {
+    if (!isLoading && typeof window !== "undefined" && window.location.hash) {
+      const targetId = window.location.hash.replace("#", "");
+      const el = document.getElementById(targetId);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 150);
+      }
+    }
+  }, [isLoading]);
+
   // Merge fallback fields for seeded items that might lack newer metadata
   const enrichedProducts = useMemo(() => {
     return products.map((p) => {
       const def = defaultProducts.find((d) => d.id === p.id);
       return {
         ...p,
-        imageUrl: p.imageUrl || def?.imageUrl,
+        imageUrl: normalizeImageUrl(p.imageUrl || def?.imageUrl),
         platform: p.platform || def?.platform || "Backend & Systems",
         pricingType: p.pricingType || def?.pricingType || "Enterprise",
         priceLabel: p.priceLabel || def?.priceLabel,
@@ -211,21 +224,19 @@ export default function ProductsPage() {
   const visibleTags = showAllTags ? tagCounts : tagCounts.slice(0, 10);
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 flex flex-col">
-      <Navbar />
-
+    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#0A0A0A] dark:text-zinc-100 flex flex-col">
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           {/* HEADER */}
           <div className="max-w-3xl mb-10" ref={catalogTopRef}>
             <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
-              SOLUTIONS & PLATFORMS
+              Systems & Platforms
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
-              Enterprise Products & Architectures
+              Products & Architectural Solutions
             </h1>
             <p className="mt-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              Production-grade systems, web & mobile applications, modular ERP platforms, and open-source tools engineered for scale.
+              Production-grade backends, modular ERP systems, developer utilities, and applications I&apos;ve designed and built.
             </p>
           </div>
 
@@ -531,7 +542,10 @@ export default function ProductsPage() {
                         >
                           <div>
                             {bannerImg && (
-                              <div className="relative w-full h-44 sm:h-52 overflow-hidden bg-[#08090d] border-b border-zinc-200 dark:border-zinc-800">
+                              <Link
+                                href={`/products/${product.id}`}
+                                className="block relative w-full h-44 sm:h-52 overflow-hidden bg-[#0A0A0A] border-b border-zinc-200 dark:border-zinc-800"
+                              >
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                   src={bannerImg}
@@ -547,7 +561,7 @@ export default function ProductsPage() {
                                     {product.platform}
                                   </span>
                                 </div>
-                              </div>
+                              </Link>
                             )}
 
                             <div className="p-6 pb-4">
@@ -579,7 +593,12 @@ export default function ProductsPage() {
                               </div>
 
                               <h2 className="text-lg sm:text-xl font-bold text-zinc-900 dark:text-white mb-2 leading-snug">
-                                {product.title}
+                                <Link
+                                  href={`/products/${product.id}`}
+                                  className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                                >
+                                  {product.title}
+                                </Link>
                               </h2>
                               <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-5">
                                 {product.summary}
@@ -636,37 +655,67 @@ export default function ProductsPage() {
 
                             <div className="flex flex-wrap items-center gap-2">
                               <Link
+                                href={`/products/${product.id}`}
+                                className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors shadow-2xs"
+                              >
+                                <span>Overview</span>
+                                <ArrowRight className="w-3 h-3" />
+                              </Link>
+
+                              <Link
                                 href="/contact"
                                 className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 hover:opacity-90 transition-opacity"
                               >
-                                <span>{product.pricingType === "Paid" ? "Acquire / Inquire" : "Inquire / Implementation"}</span>
+                                <span>{product.pricingType === "Paid" ? "Inquire / Licensing" : "Inquire / Custom Setup"}</span>
                                 <ArrowRight className="w-3.5 h-3.5" />
                               </Link>
 
                               {product.demoUrl && (
-                                <a
-                                  href={product.demoUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors"
-                                  title="Live Demo"
-                                >
-                                  <ExternalLink className="w-3.5 h-3.5" />
-                                  <span>Demo</span>
-                                </a>
+                                product.demoUrl.startsWith("/") ? (
+                                  <Link
+                                    href={product.demoUrl}
+                                    className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors"
+                                    title="Live Demo"
+                                  >
+                                    <ExternalLink className="w-3.5 h-3.5" />
+                                    <span>Demo</span>
+                                  </Link>
+                                ) : (
+                                  <a
+                                    href={product.demoUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors"
+                                    title="Live Demo"
+                                  >
+                                    <ExternalLink className="w-3.5 h-3.5" />
+                                    <span>Demo</span>
+                                  </a>
+                                )
                               )}
 
                               {product.repoUrl && (
-                                <a
-                                  href={product.repoUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors"
-                                  title="GitHub Repository"
-                                >
-                                  <GitHub className="w-3.5 h-3.5" />
-                                  <span>Code</span>
-                                </a>
+                                product.repoUrl.startsWith("/") ? (
+                                  <Link
+                                    href={product.repoUrl}
+                                    className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors"
+                                    title="GitHub Repository"
+                                  >
+                                    <GitHub className="w-3.5 h-3.5" />
+                                    <span>Code</span>
+                                  </Link>
+                                ) : (
+                                  <a
+                                    href={product.repoUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors"
+                                    title="GitHub Repository"
+                                  >
+                                    <GitHub className="w-3.5 h-3.5" />
+                                    <span>Code</span>
+                                  </a>
+                                )
                               )}
                             </div>
                           </div>

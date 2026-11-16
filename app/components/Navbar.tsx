@@ -17,6 +17,10 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (pathname === "/admin" || pathname?.startsWith("/admin/")) {
+    return null;
+  }
+
   const navLinks = [
     { name: "Overview", href: "/" },
     { name: "Products", href: "/products" },
@@ -68,7 +72,7 @@ export default function Navbar() {
             href="/contact"
             className="hidden sm:inline-flex px-3.5 py-1.5 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-xs font-semibold hover:opacity-90 transition-opacity"
           >
-            Initiate Contact
+            Get in touch
           </Link>
 
           <button
@@ -106,7 +110,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="block w-full text-center px-3 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-xs font-semibold"
             >
-              Initiate Contact
+              Get in touch
             </Link>
           </div>
         </div>

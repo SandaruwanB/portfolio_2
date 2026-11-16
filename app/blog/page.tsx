@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
 import { ArrowRight, X } from "../components/Icons";
@@ -9,6 +8,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import { BlogPost } from "../lib/types";
 import { defaultBlogs } from "../lib/defaultData";
 import { subscribeToBlogs } from "../lib/firestoreService";
+import { normalizeImageUrl } from "../lib/imageUtils";
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>(defaultBlogs);
@@ -30,20 +30,18 @@ export default function BlogPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090d] dark:text-zinc-100 flex flex-col">
-      <Navbar />
-
+    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#0A0A0A] dark:text-zinc-100 flex flex-col">
       <main className="flex-1 pt-28 pb-20 sm:pt-36">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mb-12">
             <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">
-              ENGINEERING INSIGHTS & ESSAYS
+              Writings & Notes
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
-              Systems Architecture Blog
+              Articles & Architecture Notes
             </h1>
             <p className="mt-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              In-depth technical reflections on distributed systems, enterprise decoupling, ERP performance engineering, and high-throughput reliability.
+              Practical notes, architectural blueprints, and lessons learned from engineering distributed systems and enterprise ERP backends.
             </p>
           </div>
 
@@ -78,21 +76,29 @@ export default function BlogPage() {
                     </div>
 
                     <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-2 leading-tight">
-                      {post.title}
+                      <Link
+                        href={`/blog/${post.id}`}
+                        className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                      >
+                        {post.title}
+                      </Link>
                     </h2>
                     <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-4xl mb-5">
                       {post.excerpt}
                     </p>
 
                     {post.imageUrl && (
-                      <div className="relative w-full overflow-hidden rounded-xl mb-5 border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
+                      <Link
+                        href={`/blog/${post.id}`}
+                        className="block relative w-full overflow-hidden rounded-xl mb-5 border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950 group"
+                      >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={post.imageUrl}
+                          src={normalizeImageUrl(post.imageUrl)}
                           alt={post.title}
-                          className="w-full max-h-[340px] object-cover"
+                          className="w-full max-h-[340px] object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-out"
                         />
-                      </div>
+                      </Link>
                     )}
 
                     <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800">
@@ -107,13 +113,13 @@ export default function BlogPage() {
                         ))}
                       </div>
 
-                      <button
-                        onClick={() => setSelectedPost(post)}
+                      <Link
+                        href={`/blog/${post.id}`}
                         className="text-xs font-mono font-medium text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
                       >
                         <span>Read Full Article</span>
                         <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
+                      </Link>
                     </div>
                   </article>
                 </ScrollReveal>
@@ -170,7 +176,7 @@ export default function BlogPage() {
               <div className="relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={selectedPost.imageUrl}
+                  src={normalizeImageUrl(selectedPost.imageUrl)}
                   alt={selectedPost.title}
                   className="w-full max-h-[400px] object-cover"
                 />

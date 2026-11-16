@@ -7,6 +7,7 @@ import ScrollReveal from "./ScrollReveal";
 import { Product } from "../lib/types";
 import { defaultProducts } from "../lib/defaultData";
 import { subscribeToProducts } from "../lib/firestoreService";
+import { normalizeImageUrl } from "../lib/imageUtils";
 
 const icons = [Cpu, Layers, ShieldCheck];
 
@@ -48,12 +49,12 @@ export default function FeaturedSystems() {
             const Icon = icons[idx % icons.length];
             const firstMetric = item.metrics?.[0];
             const highlightText = firstMetric ? `${firstMetric.label}: ${firstMetric.value}` : item.tag;
-            const bannerImg = item.imageUrl || defaultProducts.find((d) => d.id === item.id)?.imageUrl;
+            const bannerImg = normalizeImageUrl(item.imageUrl || defaultProducts.find((d) => d.id === item.id)?.imageUrl);
 
             return (
               <ScrollReveal key={item.id} delay={idx * 120} className="h-full">
                 <Link
-                  href={`/products#${item.id}`}
+                  href={`/products/${item.id}`}
                   className="group h-full rounded-2xl bg-white/80 dark:bg-zinc-900/40 backdrop-blur-xs border border-zinc-200 dark:border-zinc-800/80 hover:border-zinc-400 dark:hover:border-zinc-600 hover:shadow-lg hover:-translate-y-1 transition-all flex flex-col justify-between overflow-hidden"
                 >
                   <div>

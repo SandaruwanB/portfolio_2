@@ -20,6 +20,7 @@ import {
   seedInitialData 
 } from "../lib/firestoreService";
 import { Product, BlogPost } from "../lib/types";
+import { normalizeImageUrl } from "../lib/imageUtils";
 import { 
   Layers, 
   BookOpen, 
@@ -159,6 +160,7 @@ export default function AdminPage() {
     try {
       const cleanedProduct: Partial<Product> = {
         ...editingProduct,
+        imageUrl: normalizeImageUrl(editingProduct.imageUrl),
         features: (editingProduct.features || []).map((f) => f.trim()).filter(Boolean),
         stack: (editingProduct.stack || []).map((s) => s.trim()).filter(Boolean),
         metrics: (editingProduct.metrics || []).filter((m) => m.label.trim() && m.value.trim()),
@@ -211,7 +213,11 @@ export default function AdminPage() {
     if (!editingBlog?.title) return;
     setBlogUploading(true);
     try {
-      await saveBlog(editingBlog, editingBlog.id);
+      const cleanedBlog: Partial<BlogPost> = {
+        ...editingBlog,
+        imageUrl: normalizeImageUrl(editingBlog.imageUrl),
+      };
+      await saveBlog(cleanedBlog, cleanedBlog.id);
       setBlogModalOpen(false);
       setEditingBlog(null);
       setActionMessage("Blog post saved successfully!");
@@ -268,7 +274,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-[#08090d] text-zinc-900 dark:text-zinc-100 flex items-center justify-center font-mono text-xs">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#0A0A0A] text-zinc-900 dark:text-zinc-100 flex items-center justify-center font-mono text-xs">
         Initializing Administrative Boundary...
       </div>
     );
@@ -277,7 +283,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
   // Not authenticated screen
   if (!user) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-[#08090d] text-zinc-900 dark:text-zinc-100 flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#0A0A0A] text-zinc-900 dark:text-zinc-100 flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-md space-y-6">
           <div className="text-center space-y-2">
             <Link
@@ -364,7 +370,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
 
   // Authenticated Admin Dashboard
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#08090d] text-zinc-900 dark:text-zinc-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#0A0A0A] text-zinc-900 dark:text-zinc-100 flex flex-col font-sans">
       {/* Top Bar */}
       <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/50 backdrop-blur-md sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -860,15 +866,18 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
               {/* IMAGE URL OR UPLOAD */}
               <div className="space-y-2">
                 <label className="block text-[11px] font-mono text-zinc-500">
-                  PRODUCT BANNER / ARCHITECTURE IMAGE (URL OR UPLOAD)
+                  PRODUCT BANNER / IMAGE (URL, GOOGLE DRIVE LINK, OR UPLOAD)
                 </label>
                 <input
                   type="text"
                   value={editingProduct.imageUrl || ""}
-                  onChange={(e) => setEditingProduct({ ...editingProduct, imageUrl: e.target.value })}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, imageUrl: normalizeImageUrl(e.target.value) })}
                   className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono"
-                  placeholder="https://... or /images/products/telemetry-engine.jpg"
+                  placeholder="Paste Google Drive share link, https://..., or /images/..."
                 />
+                <p className="text-[10px] font-mono text-zinc-400">
+                  Google Drive links auto-convert! Set file access to &quot;Anyone with the link&quot;.
+                </p>
                 <div className="flex flex-wrap items-center gap-3 pt-1">
                   <input
                     type="file"
@@ -878,7 +887,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                   />
                   {editingProduct.imageUrl && (
                     <a
-                      href={editingProduct.imageUrl}
+                      href={normalizeImageUrl(editingProduct.imageUrl)}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 underline font-mono"
@@ -892,7 +901,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                   <div className="mt-2 relative w-full h-36 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={editingProduct.imageUrl}
+                      src={normalizeImageUrl(editingProduct.imageUrl)}
                       alt="Product Banner Preview"
                       className="w-full h-full object-cover"
                     />
@@ -1025,15 +1034,18 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
               {/* IMAGE URL OR UPLOAD */}
               <div className="space-y-2">
                 <label className="block text-[11px] font-mono text-zinc-500">
-                  COVER / DIAGRAM IMAGE (URL OR UPLOAD)
+                  COVER / DIAGRAM IMAGE (URL, GOOGLE DRIVE LINK, OR UPLOAD)
                 </label>
                 <input
                   type="text"
                   value={editingBlog.imageUrl || ""}
-                  onChange={(e) => setEditingBlog({ ...editingBlog, imageUrl: e.target.value })}
+                  onChange={(e) => setEditingBlog({ ...editingBlog, imageUrl: normalizeImageUrl(e.target.value) })}
                   className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono"
-                  placeholder="https://... or /images/..."
+                  placeholder="Paste Google Drive share link, https://..., or /images/..."
                 />
+                <p className="text-[10px] font-mono text-zinc-400">
+                  Google Drive links auto-convert! Set file access to &quot;Anyone with the link&quot;.
+                </p>
                 <div className="flex flex-wrap items-center gap-3 pt-1">
                   <input
                     type="file"
@@ -1043,7 +1055,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                   />
                   {editingBlog.imageUrl && (
                     <a
-                      href={editingBlog.imageUrl}
+                      href={normalizeImageUrl(editingBlog.imageUrl)}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 underline font-mono"
@@ -1057,7 +1069,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                   <div className="mt-2 relative w-full h-36 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={editingBlog.imageUrl}
+                      src={normalizeImageUrl(editingBlog.imageUrl)}
                       alt="Blog Cover Preview"
                       className="w-full h-full object-cover"
                     />
