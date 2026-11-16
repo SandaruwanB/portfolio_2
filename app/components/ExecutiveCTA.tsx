@@ -20,9 +20,8 @@ export default function ExecutiveCTA() {
         <ScrollReveal>
           <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-white/90 to-zinc-100/90 dark:from-zinc-900/70 dark:to-zinc-900/30 backdrop-blur-xs border border-zinc-200 dark:border-zinc-800 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="max-w-xl space-y-2">
-              <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span>Let&apos;s Work Together</span>
+              <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+                Let&apos;s Work Together
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
                 Looking to modernize your operations or scale your business with technology?

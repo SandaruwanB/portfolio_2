@@ -73,15 +73,33 @@ export default function Hero() {
 
         </div>
 
-        <div className="mt-8 sm:mt-12 pt-6 border-t border-zinc-200/80 dark:border-zinc-800/80 flex flex-wrap items-center gap-1.5 sm:gap-2">
-          {competencies.map((item) => (
-            <span
-              key={item}
-              className="px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[11px] font-mono text-zinc-700 dark:text-zinc-300"
-            >
-              {item}
-            </span>
-          ))}
+        <div className="mt-8 sm:mt-12 pt-6 border-t border-zinc-200/80 dark:border-zinc-800/80 overflow-hidden">
+          <div
+            className="w-full overflow-hidden"
+            style={{
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+              maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+            }}
+          >
+            <div className="animate-marquee flex items-center gap-2.5 select-none py-1">
+              {competencies.map((item, idx) => (
+                <span
+                  key={`loop-1-${idx}`}
+                  className="px-3.5 py-1.5 rounded-lg bg-white/90 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 text-[11px] font-mono text-zinc-700 dark:text-zinc-300 shadow-2xs whitespace-nowrap hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors cursor-default"
+                >
+                  {item}
+                </span>
+              ))}
+              {competencies.map((item, idx) => (
+                <span
+                  key={`loop-2-${idx}`}
+                  className="px-3.5 py-1.5 rounded-lg bg-white/90 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 text-[11px] font-mono text-zinc-700 dark:text-zinc-300 shadow-2xs whitespace-nowrap hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors cursor-default"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
 
       </div>
