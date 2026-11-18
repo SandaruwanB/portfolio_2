@@ -26,6 +26,15 @@ export const metadata: Metadata = {
     description: "Architecting high-throughput, fault-tolerant distributed systems, enterprise platforms, and cloud performance.",
     type: "website",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180" },
+    ],
+  },
 };
 
 export default function RootLayout({
