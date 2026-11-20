@@ -7,7 +7,7 @@ import ScrollReveal from "./ScrollReveal";
 import { Product } from "../lib/types";
 import { defaultProducts } from "../lib/defaultData";
 import { subscribeToProducts } from "../lib/firestoreService";
-import { normalizeImageUrl } from "../lib/imageUtils";
+import { normalizeImageUrl, handleImageFallback } from "../lib/imageUtils";
 
 const icons = [Cpu, Layers, ShieldCheck];
 
@@ -64,6 +64,8 @@ export default function FeaturedSystems() {
                         <img
                           src={bannerImg}
                           alt={item.title}
+                          referrerPolicy="no-referrer"
+                          onError={handleImageFallback}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                         />
                         <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-zinc-900/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-white">

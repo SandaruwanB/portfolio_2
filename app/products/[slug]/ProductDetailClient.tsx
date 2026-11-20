@@ -15,7 +15,7 @@ import ScrollReveal from "../../components/ScrollReveal";
 import { Product } from "../../lib/types";
 import { defaultProducts } from "../../lib/defaultData";
 import { subscribeToProducts } from "../../lib/firestoreService";
-import { normalizeImageUrl } from "../../lib/imageUtils";
+import { normalizeImageUrl, handleImageFallback } from "../../lib/imageUtils";
 
 export default function ProductDetailClient({ slug }: { slug: string }) {
   const [product, setProduct] = useState<Product | null>(() => {
@@ -205,6 +205,8 @@ export default function ProductDetailClient({ slug }: { slug: string }) {
                 <img
                   src={bannerImg}
                   alt={product.title}
+                  referrerPolicy="no-referrer"
+                  onError={handleImageFallback}
                   className="w-full h-full object-cover"
                 />
               </div>

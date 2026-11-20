@@ -8,7 +8,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import { BlogPost } from "../lib/types";
 import { defaultBlogs } from "../lib/defaultData";
 import { subscribeToBlogs } from "../lib/firestoreService";
-import { normalizeImageUrl } from "../lib/imageUtils";
+import { normalizeImageUrl, handleImageFallback } from "../lib/imageUtils";
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>(defaultBlogs);
@@ -96,6 +96,8 @@ export default function BlogPage() {
                         <img
                           src={normalizeImageUrl(post.imageUrl)}
                           alt={post.title}
+                          referrerPolicy="no-referrer"
+                          onError={handleImageFallback}
                           className="w-full max-h-[340px] object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-out"
                         />
                       </Link>
@@ -178,6 +180,8 @@ export default function BlogPage() {
                 <img
                   src={normalizeImageUrl(selectedPost.imageUrl)}
                   alt={selectedPost.title}
+                  referrerPolicy="no-referrer"
+                  onError={handleImageFallback}
                   className="w-full max-h-[400px] object-cover"
                 />
               </div>

@@ -8,7 +8,7 @@ import ScrollReveal from "../../components/ScrollReveal";
 import { BlogPost } from "../../lib/types";
 import { defaultBlogs } from "../../lib/defaultData";
 import { subscribeToBlogs } from "../../lib/firestoreService";
-import { normalizeImageUrl } from "../../lib/imageUtils";
+import { normalizeImageUrl, handleImageFallback } from "../../lib/imageUtils";
 
 export default function BlogDetailClient({ slug }: { slug: string }) {
   const [post, setPost] = useState<BlogPost | null>(() => {
@@ -134,6 +134,8 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                 <img
                   src={coverImg}
                   alt={post.title}
+                  referrerPolicy="no-referrer"
+                  onError={handleImageFallback}
                   className="w-full h-full object-cover"
                 />
               </div>

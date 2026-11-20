@@ -2,35 +2,35 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { 
-  signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged, 
-  User 
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  User
 } from "firebase/auth";
 import { auth, isFirebaseConfigured } from "../lib/firebase";
-import { 
-  getProducts, 
-  saveProduct, 
-  deleteProduct, 
-  getBlogs, 
-  saveBlog, 
-  deleteBlog, 
+import {
+  getProducts,
+  saveProduct,
+  deleteProduct,
+  getBlogs,
+  saveBlog,
+  deleteBlog,
   uploadImage,
-  seedInitialData 
+  seedInitialData
 } from "../lib/firestoreService";
 import { Product, BlogPost } from "../lib/types";
-import { normalizeImageUrl } from "../lib/imageUtils";
-import { 
-  Layers, 
-  BookOpen, 
-  Plus, 
-  Trash2, 
-  Edit3, 
-  LogOut, 
-  ArrowLeft, 
-  Check, 
-  Copy, 
+import { normalizeImageUrl, handleImageFallback } from "../lib/imageUtils";
+import {
+  Layers,
+  BookOpen,
+  Plus,
+  Trash2,
+  Edit3,
+  LogOut,
+  ArrowLeft,
+  Check,
+  Copy,
   ExternalLink,
   ShieldCheck,
   AlertCircle
@@ -55,11 +55,13 @@ export default function AdminPage() {
   const [editingProduct, setEditingProduct] = useState<Partial<Product> | null>(null);
   const [productModalOpen, setProductModalOpen] = useState(false);
   const [productUploading, setProductUploading] = useState(false);
+  const [productImgError, setProductImgError] = useState(false);
 
   // Blog Form Modal state
   const [editingBlog, setEditingBlog] = useState<Partial<BlogPost> | null>(null);
   const [blogModalOpen, setBlogModalOpen] = useState(false);
   const [blogUploading, setBlogUploading] = useState(false);
+  const [blogImgError, setBlogImgError] = useState(false);
 
   // Listen to Auth State
   useEffect(() => {
@@ -425,11 +427,10 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab("products")}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-colors ${
-                activeTab === "products"
-                  ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-xs"
-                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
-              }`}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-colors ${activeTab === "products"
+                ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-xs"
+                : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
+                }`}
             >
               <Layers className="w-4 h-4" />
               <span>Products ({products.length})</span>
@@ -437,11 +438,10 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
 
             <button
               onClick={() => setActiveTab("blogs")}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-colors ${
-                activeTab === "blogs"
-                  ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-xs"
-                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
-              }`}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-colors ${activeTab === "blogs"
+                ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-xs"
+                : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
+                }`}
             >
               <BookOpen className="w-4 h-4" />
               <span>Blog Posts ({blogs.length})</span>
@@ -782,9 +782,9 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                 <input
                   type="text"
                   value={editingProduct.stack?.join(", ") || ""}
-                  onChange={(e) => setEditingProduct({ 
-                    ...editingProduct, 
-                    stack: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) 
+                  onChange={(e) => setEditingProduct({
+                    ...editingProduct,
+                    stack: e.target.value.split(",").map((s) => s.trim()).filter(Boolean)
                   })}
                   className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs"
                   placeholder="Java, Apache Kafka, Redis, PostgreSQL, Docker"
@@ -798,8 +798,8 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                 <textarea
                   rows={4}
                   value={editingProduct.features?.join("\n") || ""}
-                  onChange={(e) => setEditingProduct({ 
-                    ...editingProduct, 
+                  onChange={(e) => setEditingProduct({
+                    ...editingProduct,
                     features: e.target.value.split("\n")
                   })}
                   className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono resize-none"
@@ -871,12 +871,15 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                 <input
                   type="text"
                   value={editingProduct.imageUrl || ""}
-                  onChange={(e) => setEditingProduct({ ...editingProduct, imageUrl: normalizeImageUrl(e.target.value) })}
+                  onChange={(e) => {
+                    setProductImgError(false);
+                    setEditingProduct({ ...editingProduct, imageUrl: normalizeImageUrl(e.target.value) });
+                  }}
                   className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono"
                   placeholder="Paste Google Drive share link, https://..., or /images/..."
                 />
                 <p className="text-[10px] font-mono text-zinc-400">
-                  Google Drive links auto-convert! Set file access to &quot;Anyone with the link&quot;.
+                  Google Drive links auto-convert! Make sure file access is set to &quot;Anyone with the link&quot; in Google Drive.
                 </p>
                 <div className="flex flex-wrap items-center gap-3 pt-1">
                   <input
@@ -903,8 +906,33 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                     <img
                       src={normalizeImageUrl(editingProduct.imageUrl)}
                       alt="Product Banner Preview"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        handleImageFallback(e);
+                        setProductImgError(true);
+                      }}
+                      onLoad={() => setProductImgError(false)}
                       className="w-full h-full object-cover"
                     />
+                  </div>
+                )}
+                {productImgError && (
+                  <div className="mt-2 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-400 text-xs font-mono space-y-1.5">
+                    <div className="font-bold flex items-center gap-1.5">
+                      <span>⚠️ Image could not be loaded</span>
+                    </div>
+                    <p className="text-[11px] leading-relaxed">
+                      Google blocks external website loading if the file permission is <strong>&quot;Restricted&quot;</strong>.
+                    </p>
+                    <div className="text-[11px] bg-black/10 dark:bg-black/30 p-2 rounded-lg space-y-1">
+                      <div><strong>How to fix in Google Drive:</strong></div>
+                      <div>1. Open Google Drive ➔ Right-click image ➔ <strong>Share</strong></div>
+                      <div>2. Under &quot;General access&quot;, change <strong>Restricted</strong> to <strong>&quot;Anyone with the link&quot;</strong></div>
+                      <div>3. Keep Role as <strong>Viewer</strong> and click <strong>Done</strong></div>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                      💡 <em>Tip: You can also click <strong>&quot;Choose File&quot;</strong> above to upload directly to Firebase Storage with zero permission issues!</em>
+                    </p>
                   </div>
                 )}
               </div>
@@ -1022,9 +1050,9 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                 <input
                   type="text"
                   value={editingBlog.tags?.join(", ") || ""}
-                  onChange={(e) => setEditingBlog({ 
-                    ...editingBlog, 
-                    tags: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) 
+                  onChange={(e) => setEditingBlog({
+                    ...editingBlog,
+                    tags: e.target.value.split(",").map((s) => s.trim()).filter(Boolean)
                   })}
                   className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs"
                   placeholder="Kafka, Java, Distributed Systems"
@@ -1039,12 +1067,15 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                 <input
                   type="text"
                   value={editingBlog.imageUrl || ""}
-                  onChange={(e) => setEditingBlog({ ...editingBlog, imageUrl: normalizeImageUrl(e.target.value) })}
+                  onChange={(e) => {
+                    setBlogImgError(false);
+                    setEditingBlog({ ...editingBlog, imageUrl: normalizeImageUrl(e.target.value) });
+                  }}
                   className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono"
                   placeholder="Paste Google Drive share link, https://..., or /images/..."
                 />
                 <p className="text-[10px] font-mono text-zinc-400">
-                  Google Drive links auto-convert! Set file access to &quot;Anyone with the link&quot;.
+                  Google Drive links auto-convert! Make sure file access is set to &quot;Anyone with the link&quot; in Google Drive.
                 </p>
                 <div className="flex flex-wrap items-center gap-3 pt-1">
                   <input
@@ -1071,8 +1102,33 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                     <img
                       src={normalizeImageUrl(editingBlog.imageUrl)}
                       alt="Blog Cover Preview"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        handleImageFallback(e);
+                        setBlogImgError(true);
+                      }}
+                      onLoad={() => setBlogImgError(false)}
                       className="w-full h-full object-cover"
                     />
+                  </div>
+                )}
+                {blogImgError && (
+                  <div className="mt-2 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-400 text-xs font-mono space-y-1.5">
+                    <div className="font-bold flex items-center gap-1.5">
+                      <span> Image could not be loaded</span>
+                    </div>
+                    <p className="text-[11px] leading-relaxed">
+                      Google blocks external website loading if the file permission is <strong>&quot;Restricted&quot;</strong>.
+                    </p>
+                    <div className="text-[11px] bg-black/10 dark:bg-black/30 p-2 rounded-lg space-y-1">
+                      <div><strong>How to fix in Google Drive:</strong></div>
+                      <div>1. Open Google Drive ➔ Right-click image ➔ <strong>Share</strong></div>
+                      <div>2. Under &quot;General access&quot;, change <strong>Restricted</strong> to <strong>&quot;Anyone with the link&quot;</strong></div>
+                      <div>3. Keep Role as <strong>Viewer</strong> and click <strong>Done</strong></div>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                      <em>Tip: You can also click <strong>&quot;Choose File&quot;</strong> above to upload directly to Firebase Storage with zero permission issues!</em>
+                    </p>
                   </div>
                 )}
               </div>

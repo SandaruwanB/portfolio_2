@@ -22,7 +22,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import { Product } from "../lib/types";
 import { defaultProducts } from "../lib/defaultData";
 import { subscribeToProducts } from "../lib/firestoreService";
-import { normalizeImageUrl } from "../lib/imageUtils";
+import { normalizeImageUrl, handleImageFallback } from "../lib/imageUtils";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -532,7 +532,7 @@ export default function ProductsPage() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {paginatedProducts.map((product, idx) => {
-                    const bannerImg = product.imageUrl;
+                    const bannerImg = normalizeImageUrl(product.imageUrl);
 
                     return (
                       <ScrollReveal key={product.id} delay={idx * 75} className="h-full">
@@ -550,6 +550,8 @@ export default function ProductsPage() {
                                 <img
                                   src={bannerImg}
                                   alt={product.title}
+                                  referrerPolicy="no-referrer"
+                                  onError={handleImageFallback}
                                   className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
