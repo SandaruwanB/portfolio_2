@@ -1,7 +1,41 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import ProductDetailClient from "./products/[slug]/ProductDetailClient";
+import BlogDetailClient from "./blog/[slug]/BlogDetailClient";
 
 export default function NotFound() {
+  const [dynamicRoute, setDynamicRoute] = useState<{
+    type: "product" | "blog";
+    slug: string;
+  } | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const path = window.location.pathname;
+      const productMatch = path.match(/^\/products\/([^/]+)/);
+      if (productMatch?.[1]) {
+        setDynamicRoute({ type: "product", slug: productMatch[1] });
+        return;
+      }
+      const blogMatch = path.match(/^\/blog\/([^/]+)/);
+      if (blogMatch?.[1]) {
+        setDynamicRoute({ type: "blog", slug: blogMatch[1] });
+        return;
+      }
+    }
+  }, []);
+
+  if (dynamicRoute?.type === "product") {
+    return <ProductDetailClient slug={dynamicRoute.slug} />;
+  }
+
+  if (dynamicRoute?.type === "blog") {
+    return <BlogDetailClient slug={dynamicRoute.slug} />;
+  }
+
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#0A0A0A] dark:text-zinc-100 flex flex-col items-center justify-center p-4">
       <div className="max-w-md text-center space-y-4">
@@ -27,4 +61,3 @@ export default function NotFound() {
     </div>
   );
 }
-
