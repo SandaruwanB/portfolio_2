@@ -21,6 +21,7 @@ import {
 } from "../lib/firestoreService";
 import { Product, BlogPost } from "../lib/types";
 import { normalizeImageUrl, handleImageFallback } from "../lib/imageUtils";
+import MarkdownViewer from "../components/MarkdownViewer";
 import {
   Layers,
   BookOpen,
@@ -56,6 +57,7 @@ export default function AdminPage() {
   const [productModalOpen, setProductModalOpen] = useState(false);
   const [productUploading, setProductUploading] = useState(false);
   const [productImgError, setProductImgError] = useState(false);
+  const [productMdTab, setProductMdTab] = useState<"edit" | "preview">("edit");
 
   // Blog Form Modal state
   const [editingBlog, setEditingBlog] = useState<Partial<BlogPost> | null>(null);
@@ -206,6 +208,20 @@ export default function AdminPage() {
     } finally {
       setProductUploading(false);
     }
+  };
+
+  const handleProductMdFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target?.result;
+      if (typeof text === "string") {
+        setEditingProduct((prev) => ({ ...(prev || {}), content: text }));
+        setProductMdTab("preview");
+      }
+    };
+    reader.readAsText(file);
   };
 
   // ---------------- BLOG HANDLERS ----------------
@@ -933,6 +949,82 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`;
                     <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
                       💡 <em>Tip: You can also click <strong>&quot;Choose File&quot;</strong> above to upload directly to Firebase Storage with zero permission issues!</em>
                     </p>
+                  </div>
+                )}
+              </div>
+
+              {/* DETAILED TECHNICAL SPECIFICATION & CASE STUDY (MARKDOWN) */}
+              <div className="space-y-2 pt-3 border-t border-zinc-200 dark:border-zinc-800">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <label className="block text-[11px] font-mono text-zinc-500 uppercase">
+                    Architecture Case Study & Deep Dive (Markdown .md)
+                  </label>
+                  <div className="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-800 p-0.5 rounded-lg">
+                    <button
+                      type="button"
+                      onClick={() => setProductMdTab("edit")}
+                      className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-colors ${
+                        productMdTab === "edit"
+                          ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-semibold shadow-xs"
+                          : "text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+                      }`}
+                    >
+                      Editor
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setProductMdTab("preview")}
+                      className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-colors ${
+                        productMdTab === "preview"
+                          ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-semibold shadow-xs"
+                          : "text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+                      }`}
+                    >
+                      Preview
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-1 pb-1">
+                  <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-mono font-medium hover:bg-emerald-500/20 cursor-pointer transition-colors shadow-2xs">
+                    <span>📄 Upload .md File</span>
+                    <input
+                      type="file"
+                      accept=".md,.markdown,text/markdown,text/plain"
+                      onChange={handleProductMdFileUpload}
+                      className="hidden"
+                    />
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText("![Architecture Diagram](https://lh3.googleusercontent.com/d/PASTE_DRIVE_ID_HERE)");
+                      alert("Copied Drive Image Template to clipboard!\nPaste it anywhere in your Markdown and replace PASTE_DRIVE_ID_HERE with your Google Drive File ID.");
+                    }}
+                    className="inline-flex items-center gap-1 text-[11px] font-mono text-zinc-500 hover:text-zinc-900 dark:hover:text-white underline"
+                  >
+                    <span>📋 Copy Drive Image Syntax</span>
+                  </button>
+                </div>
+
+                {productMdTab === "edit" ? (
+                  <textarea
+                    rows={8}
+                    value={editingProduct.content || ""}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, content: e.target.value })}
+                    placeholder={"Write or paste your markdown spec here, or click 'Upload .md File' above!\n\n## System Architecture\nDescribe the system boundaries and flow...\n\n![Architecture Diagram](https://lh3.googleusercontent.com/d/YOUR_DRIVE_ID)\n\n```java\n// Vert.x Event Stream Worker\n```"}
+                    className="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-800 dark:text-zinc-200 focus:outline-none focus:border-emerald-500 leading-relaxed"
+                  />
+                ) : (
+                  <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/50 max-h-80 overflow-y-auto">
+                    {editingProduct.content ? (
+                      <MarkdownViewer content={editingProduct.content} />
+                    ) : (
+                      <div className="text-center py-8 text-xs font-mono text-zinc-400">
+                        No Markdown content written yet. Switch to Editor tab or click &quot;Upload .md File&quot;!
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

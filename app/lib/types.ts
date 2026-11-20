@@ -12,6 +12,7 @@ export interface Product {
   pricingType?: string;   // e.g. "Open Source" | "Paid" | "Enterprise"
   priceLabel?: string;    // e.g. "MIT License" | "$49" | "Custom Quote"
   status?: string;        // e.g. "Production" | "v2.4" | "Beta"
+  content?: string;       // Markdown documentation & architecture case study
   demoUrl?: string;
   repoUrl?: string;
   order?: number;
