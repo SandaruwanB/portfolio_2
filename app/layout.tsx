@@ -6,6 +6,10 @@ import NavigationProgressBar from "./components/NavigationProgressBar";
 import Navbar from "./components/Navbar";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://sandaruwanbandara.dev"),
+  alternates: {
+    canonical: "/",
+  },
   title: "Sandaruwan Bandara — Software Architect & Principal Systems Engineer",
   description: "Architecting high-throughput, fault-tolerant distributed systems, enterprise platforms, and cloud performance.",
   keywords: [

@@ -17,6 +17,7 @@ export interface Product {
   repoUrl?: string;
   order?: number;
   createdAt?: number;
+  updatedAt?: number;
 }
 
 export interface BlogPost {

@@ -19,8 +19,15 @@ import { normalizeImageUrl } from "../../lib/imageUtils";
 import MarkdownViewer from "../../components/MarkdownViewer";
 import ImageWithLoader from "../../components/ImageWithLoader";
 
-export default function ProductDetailClient({ slug }: { slug: string }) {
+export default function ProductDetailClient({
+  slug,
+  initialProduct,
+}: {
+  slug: string;
+  initialProduct?: Product | null;
+}) {
   const [product, setProduct] = useState<Product | null>(() => {
+    if (initialProduct) return initialProduct;
     return defaultProducts.find((p) => p.id === slug) || null;
   });
   const [isLoading, setIsLoading] = useState(!product);
