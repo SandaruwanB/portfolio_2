@@ -7,24 +7,33 @@ import ProductDetailClient from "./products/[slug]/ProductDetailClient";
 import BlogDetailClient from "./blog/[slug]/BlogDetailClient";
 
 export default function NotFound() {
+  const [mounted, setMounted] = useState(false);
   const [dynamicRoute, setDynamicRoute] = useState<{
     type: "product" | "blog";
     slug: string;
-  } | null>(null);
-
-  useEffect(() => {
+  } | null>(() => {
     if (typeof window !== "undefined") {
       const path = window.location.pathname;
       const productMatch = path.match(/^\/products\/([^/]+)/);
-      if (productMatch?.[1]) {
-        setDynamicRoute({ type: "product", slug: productMatch[1] });
-        return;
-      }
+      if (productMatch?.[1]) return { type: "product", slug: productMatch[1] };
       const blogMatch = path.match(/^\/blog\/([^/]+)/);
-      if (blogMatch?.[1]) {
-        setDynamicRoute({ type: "blog", slug: blogMatch[1] });
-        return;
-      }
+      if (blogMatch?.[1]) return { type: "blog", slug: blogMatch[1] };
+    }
+    return null;
+  });
+
+  useEffect(() => {
+    setMounted(true);
+    const path = window.location.pathname;
+    const productMatch = path.match(/^\/products\/([^/]+)/);
+    if (productMatch?.[1]) {
+      setDynamicRoute({ type: "product", slug: productMatch[1] });
+      return;
+    }
+    const blogMatch = path.match(/^\/blog\/([^/]+)/);
+    if (blogMatch?.[1]) {
+      setDynamicRoute({ type: "blog", slug: blogMatch[1] });
+      return;
     }
   }, []);
 
@@ -34,6 +43,15 @@ export default function NotFound() {
 
   if (dynamicRoute?.type === "blog") {
     return <BlogDetailClient slug={dynamicRoute.slug} />;
+  }
+
+  // Before client mounts, display clean minimal loader to prevent 404 flash during route resolution
+  if (!mounted) {
+    return (
+      <div className="min-h-[70vh] flex items-center justify-center">
+        <div className="w-5 h-5 rounded-full border-2 border-zinc-300 dark:border-zinc-700 border-t-zinc-900 dark:border-t-zinc-100 animate-spin" />
+      </div>
+    );
   }
 
   return (

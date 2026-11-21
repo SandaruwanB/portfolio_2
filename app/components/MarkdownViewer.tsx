@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { normalizeImageUrl, handleImageFallback } from "../lib/imageUtils";
+import { normalizeImageUrl } from "../lib/imageUtils";
 import { Copy, Check, ExternalLink } from "./Icons";
+import ImageWithLoader from "./ImageWithLoader";
 
 interface MarkdownViewerProps {
   content: string;
@@ -148,13 +149,11 @@ function renderMarkdownBlocks(rawText: string): React.ReactNode[] {
 
       blocks.push(
         <div key={`img-${index++}`} className="my-6 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800/80 bg-zinc-950 shadow-md">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <ImageWithLoader
             src={normalized}
-            alt={alt}
-            referrerPolicy="no-referrer"
-            onError={handleImageFallback}
-            className="w-full max-h-[500px] object-cover"
+            alt={alt || "Architecture Diagram"}
+            containerClassName="w-full max-h-[500px]"
+            className="w-full h-full object-cover"
           />
           {alt && (
             <div className="p-2.5 text-center text-xs font-mono text-zinc-400 bg-zinc-900 border-t border-zinc-800">
@@ -305,13 +304,11 @@ function renderInline(text: string): React.ReactNode {
       const rawUrl = imgMatch[2];
       return (
         <span key={idx} className="block my-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={normalizeImageUrl(rawUrl)}
-            alt={alt}
-            referrerPolicy="no-referrer"
-            onError={handleImageFallback}
-            className="rounded-xl border border-zinc-200 dark:border-zinc-800 max-h-96 object-cover my-2"
+          <ImageWithLoader
+            src={rawUrl}
+            alt={alt || "Documentation Diagram"}
+            containerClassName="rounded-xl border border-zinc-200 dark:border-zinc-800 max-h-96 my-2"
+            className="w-full h-full object-cover"
           />
         </span>
       );

@@ -15,8 +15,9 @@ import ScrollReveal from "../../components/ScrollReveal";
 import { Product } from "../../lib/types";
 import { defaultProducts } from "../../lib/defaultData";
 import { subscribeToProducts } from "../../lib/firestoreService";
-import { normalizeImageUrl, handleImageFallback } from "../../lib/imageUtils";
+import { normalizeImageUrl } from "../../lib/imageUtils";
 import MarkdownViewer from "../../components/MarkdownViewer";
+import ImageWithLoader from "../../components/ImageWithLoader";
 
 export default function ProductDetailClient({ slug }: { slug: string }) {
   const [product, setProduct] = useState<Product | null>(() => {
@@ -202,12 +203,10 @@ export default function ProductDetailClient({ slug }: { slug: string }) {
           {bannerImg && (
             <ScrollReveal className="mb-12">
               <div className="relative w-full h-64 sm:h-96 md:h-[460px] rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800/80 bg-zinc-950 shadow-md">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <ImageWithLoader
                   src={bannerImg}
                   alt={product.title}
-                  referrerPolicy="no-referrer"
-                  onError={handleImageFallback}
+                  containerClassName="w-full h-full"
                   className="w-full h-full object-cover"
                 />
               </div>
