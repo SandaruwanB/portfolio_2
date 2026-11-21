@@ -16,9 +16,18 @@ import { Product } from "../../lib/types";
 import { defaultProducts } from "../../lib/defaultData";
 import { subscribeToProducts } from "../../lib/firestoreService";
 import { normalizeImageUrl } from "../../lib/imageUtils";
+import MarkdownViewer from "../../components/MarkdownViewer";
+import ImageWithLoader from "../../components/ImageWithLoader";
 
-export default function ProductDetailClient({ slug }: { slug: string }) {
+export default function ProductDetailClient({
+  slug,
+  initialProduct,
+}: {
+  slug: string;
+  initialProduct?: Product | null;
+}) {
   const [product, setProduct] = useState<Product | null>(() => {
+    if (initialProduct) return initialProduct;
     return defaultProducts.find((p) => p.id === slug) || null;
   });
   const [isLoading, setIsLoading] = useState(!product);
@@ -201,10 +210,10 @@ export default function ProductDetailClient({ slug }: { slug: string }) {
           {bannerImg && (
             <ScrollReveal className="mb-12">
               <div className="relative w-full h-64 sm:h-96 md:h-[460px] rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800/80 bg-zinc-950 shadow-md">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <ImageWithLoader
                   src={bannerImg}
                   alt={product.title}
+                  containerClassName="w-full h-full"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -302,6 +311,29 @@ export default function ProductDetailClient({ slug }: { slug: string }) {
             </div>
 
           </div>
+
+          {/* IN-DEPTH ARCHITECTURE & ENGINEERING DOCUMENTATION (MARKDOWN) */}
+          {product.content && (
+            <ScrollReveal className="mb-16">
+              <div className="p-6 sm:p-10 rounded-3xl bg-white/85 dark:bg-zinc-900/40 backdrop-blur-xs border border-zinc-200 dark:border-zinc-800/80 shadow-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 mb-8 border-b border-zinc-200 dark:border-zinc-800">
+                  <div>
+                    <div className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-semibold mb-1">
+                      Technical Specification & Case Study
+                    </div>
+                    <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
+                      System Architecture & Deep Dive
+                    </h2>
+                  </div>
+                  <div className="text-xs font-mono text-zinc-400">
+                    Markdown Documentation
+                  </div>
+                </div>
+
+                <MarkdownViewer content={product.content} />
+              </div>
+            </ScrollReveal>
+          )}
 
           {/* BOTTOM CONSULTATION CARD */}
           <ScrollReveal>

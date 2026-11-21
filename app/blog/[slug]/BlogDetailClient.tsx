@@ -9,6 +9,7 @@ import { BlogPost } from "../../lib/types";
 import { defaultBlogs } from "../../lib/defaultData";
 import { subscribeToBlogs } from "../../lib/firestoreService";
 import { normalizeImageUrl } from "../../lib/imageUtils";
+import ImageWithLoader from "../../components/ImageWithLoader";
 
 export default function BlogDetailClient({ slug }: { slug: string }) {
   const [post, setPost] = useState<BlogPost | null>(() => {
@@ -130,10 +131,10 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
           {coverImg && (
             <ScrollReveal className="mb-10">
               <div className="relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800/80 bg-zinc-950 shadow-sm max-h-[460px]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <ImageWithLoader
                   src={coverImg}
                   alt={post.title}
+                  containerClassName="w-full"
                   className="w-full h-full object-cover"
                 />
               </div>

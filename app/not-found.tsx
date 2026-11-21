@@ -1,7 +1,59 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import ProductDetailClient from "./products/[slug]/ProductDetailClient";
+import BlogDetailClient from "./blog/[slug]/BlogDetailClient";
 
 export default function NotFound() {
+  const [mounted, setMounted] = useState(false);
+  const [dynamicRoute, setDynamicRoute] = useState<{
+    type: "product" | "blog";
+    slug: string;
+  } | null>(() => {
+    if (typeof window !== "undefined") {
+      const path = window.location.pathname;
+      const productMatch = path.match(/^\/products\/([^/]+)/);
+      if (productMatch?.[1]) return { type: "product", slug: productMatch[1] };
+      const blogMatch = path.match(/^\/blog\/([^/]+)/);
+      if (blogMatch?.[1]) return { type: "blog", slug: blogMatch[1] };
+    }
+    return null;
+  });
+
+  useEffect(() => {
+    setMounted(true);
+    const path = window.location.pathname;
+    const productMatch = path.match(/^\/products\/([^/]+)/);
+    if (productMatch?.[1]) {
+      setDynamicRoute({ type: "product", slug: productMatch[1] });
+      return;
+    }
+    const blogMatch = path.match(/^\/blog\/([^/]+)/);
+    if (blogMatch?.[1]) {
+      setDynamicRoute({ type: "blog", slug: blogMatch[1] });
+      return;
+    }
+  }, []);
+
+  if (dynamicRoute?.type === "product") {
+    return <ProductDetailClient slug={dynamicRoute.slug} />;
+  }
+
+  if (dynamicRoute?.type === "blog") {
+    return <BlogDetailClient slug={dynamicRoute.slug} />;
+  }
+
+  // Before client mounts, display clean minimal loader to prevent 404 flash during route resolution
+  if (!mounted) {
+    return (
+      <div className="min-h-[70vh] flex items-center justify-center">
+        <div className="w-5 h-5 rounded-full border-2 border-zinc-300 dark:border-zinc-700 border-t-zinc-900 dark:border-t-zinc-100 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#0A0A0A] dark:text-zinc-100 flex flex-col items-center justify-center p-4">
       <div className="max-w-md text-center space-y-4">
@@ -27,4 +79,3 @@ export default function NotFound() {
     </div>
   );
 }
-

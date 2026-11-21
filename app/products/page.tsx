@@ -23,6 +23,7 @@ import { Product } from "../lib/types";
 import { defaultProducts } from "../lib/defaultData";
 import { subscribeToProducts } from "../lib/firestoreService";
 import { normalizeImageUrl } from "../lib/imageUtils";
+import ImageWithLoader from "../components/ImageWithLoader";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -532,7 +533,7 @@ export default function ProductsPage() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {paginatedProducts.map((product, idx) => {
-                    const bannerImg = product.imageUrl;
+                    const bannerImg = normalizeImageUrl(product.imageUrl);
 
                     return (
                       <ScrollReveal key={product.id} delay={idx * 75} className="h-full">
@@ -546,14 +547,14 @@ export default function ProductsPage() {
                                 href={`/products/${product.id}`}
                                 className="block relative w-full h-44 sm:h-52 overflow-hidden bg-[#0A0A0A] border-b border-zinc-200 dark:border-zinc-800"
                               >
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
+                                <ImageWithLoader
                                   src={bannerImg}
                                   alt={product.title}
+                                  containerClassName="w-full h-full"
                                   className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
-                                <div className="absolute bottom-3 left-5 right-5 flex flex-wrap items-center justify-between gap-2">
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent pointer-events-none z-10" />
+                                <div className="absolute bottom-3 left-5 right-5 flex flex-wrap items-center justify-between gap-2 z-20">
                                   <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-emerald-400 border border-white/10 font-medium">
                                     {product.tag}
                                   </span>

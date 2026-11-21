@@ -8,7 +8,7 @@ import ScrollReveal from "../components/ScrollReveal";
 import { BlogPost } from "../lib/types";
 import { defaultBlogs } from "../lib/defaultData";
 import { subscribeToBlogs } from "../lib/firestoreService";
-import { normalizeImageUrl } from "../lib/imageUtils";
+import ImageWithLoader from "../components/ImageWithLoader";
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>(defaultBlogs);
@@ -92,10 +92,10 @@ export default function BlogPage() {
                         href={`/blog/${post.id}`}
                         className="block relative w-full overflow-hidden rounded-xl mb-5 border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950 group"
                       >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={normalizeImageUrl(post.imageUrl)}
+                        <ImageWithLoader
+                          src={post.imageUrl}
                           alt={post.title}
+                          containerClassName="w-full"
                           className="w-full max-h-[340px] object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-out"
                         />
                       </Link>
@@ -174,10 +174,10 @@ export default function BlogPage() {
 
             {selectedPost.imageUrl && (
               <div className="relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={normalizeImageUrl(selectedPost.imageUrl)}
+                <ImageWithLoader
+                  src={selectedPost.imageUrl}
                   alt={selectedPost.title}
+                  containerClassName="w-full"
                   className="w-full max-h-[400px] object-cover"
                 />
               </div>

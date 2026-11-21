@@ -8,6 +8,7 @@ import { Product } from "../lib/types";
 import { defaultProducts } from "../lib/defaultData";
 import { subscribeToProducts } from "../lib/firestoreService";
 import { normalizeImageUrl } from "../lib/imageUtils";
+import ImageWithLoader from "./ImageWithLoader";
 
 const icons = [Cpu, Layers, ShieldCheck];
 
@@ -60,16 +61,16 @@ export default function FeaturedSystems() {
                   <div>
                     {bannerImg && (
                       <div className="relative w-full h-40 overflow-hidden bg-[#08090d] border-b border-zinc-200 dark:border-zinc-800/60">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <ImageWithLoader
                           src={bannerImg}
                           alt={item.title}
+                          containerClassName="w-full h-full"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                         />
-                        <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-zinc-900/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-white">
+                        <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-zinc-900/80 backdrop-blur-md border border-white/10 flex items-center justify-center text-white z-20">
                           <Icon className="w-4 h-4" />
                         </div>
-                        <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-zinc-900/60 backdrop-blur-md flex items-center justify-center text-zinc-300 group-hover:text-white group-hover:bg-zinc-900 transition-colors">
+                        <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-zinc-900/60 backdrop-blur-md flex items-center justify-center text-zinc-300 group-hover:text-white group-hover:bg-zinc-900 transition-colors z-20">
                           <ArrowUpRight className="w-3.5 h-3.5" />
                         </div>
                       </div>
